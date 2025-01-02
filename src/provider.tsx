@@ -2,6 +2,7 @@ import type { NavigateOptions } from "react-router-dom";
 
 import { NextUIProvider } from "@nextui-org/system";
 import { useHref, useNavigate } from "react-router-dom";
+import { AuthProvider } from "./config/auth-provider";
 
 declare module "@react-types/shared" {
   interface RouterConfig {
@@ -14,7 +15,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
   return (
     <NextUIProvider navigate={navigate} useHref={useHref}>
-      {children}
+      <AuthProvider>{children}</AuthProvider>
     </NextUIProvider>
   );
 }
