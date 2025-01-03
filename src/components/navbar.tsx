@@ -8,6 +8,7 @@ import { Logo } from "@/components/icons";
 import { AuthContext } from "@/config/auth-provider";
 import UserMenu from "./user-menu";
 import { useContext } from "react";
+import Ballot from "./ballot";
 
 export const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -57,6 +58,9 @@ export const Navbar = () => {
               </Link>
             </NavbarItem>
           ))}
+          <NavbarItem key="ballot">
+            <Ballot />
+          </NavbarItem>
         </div>
       </NavbarContent>
 
