@@ -3,13 +3,12 @@ import { Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader } from "@
 import { Card, CardBody, Radio, RadioGroup, Spinner, useDisclosure } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getAwards, savePicks } from "@/api";
-import { AuthContext } from "@/config/auth-provider";
-import { useContext, useState } from "react";
-import { Award, Nominee, Picks } from "@/config/models";
+import { useState } from "react";
+import { Award, DbUser, Nominee, Picks } from "@/config/models";
+import { MenuIcon } from "lucide-react";
 
-export default function Ballot() {
+export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const { currentUser } = useContext(AuthContext);
   const [picks, setPicks] = useState<Picks>();
 
   const {
@@ -40,14 +39,21 @@ export default function Ballot() {
 
   return (
     <>
-      <Button variant="light" onPress={onOpen}>
+      <Button startContent={<MenuIcon />} variant="light" onPress={onOpen}>
         Ballot
       </Button>
-      <Drawer isOpen={isOpen} size="2xl" onOpenChange={onOpenChange}>
+      <Drawer
+        isOpen={isOpen}
+        size="lg"
+        placement="left"
+        hideCloseButton={!!picks}
+        isDismissable={!picks}
+        onOpenChange={onOpenChange}
+      >
         <DrawerContent>
           {(onClose) => (
             <>
-              <DrawerHeader className="flex flex-col gap-1">Ballot</DrawerHeader>
+              <DrawerHeader className="justify-center">Ballot</DrawerHeader>
               <DrawerBody>
                 {areAwardsPending || !currentUser ? (
                   <Spinner />

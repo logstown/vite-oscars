@@ -9,6 +9,7 @@ import { AuthContext } from "@/config/auth-provider";
 import UserMenu from "./user-menu";
 import { useContext } from "react";
 import Ballot from "./ballot";
+import { TrophyIcon } from "lucide-react";
 
 export const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -38,12 +39,17 @@ export const Navbar = () => {
     <NextUINavbar maxWidth="xl" position="sticky">
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
-          <Link className="flex justify-start items-center gap-1" color="foreground" href="/">
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
+          <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
+            <TrophyIcon className="text-primary" size={24} />
+            <p className="font-bold text-inherit">Oscar Showdown</p>
           </Link>
         </NavbarBrand>
-        <div className="hidden lg:flex gap-4 justify-start ml-2">
+        {currentUser && (
+          <NavbarItem>
+            <Ballot currentUser={currentUser} />
+          </NavbarItem>
+        )}
+        {/* <div className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <Link
@@ -58,10 +64,7 @@ export const Navbar = () => {
               </Link>
             </NavbarItem>
           ))}
-          <NavbarItem key="ballot">
-            <Ballot />
-          </NavbarItem>
-        </div>
+        </div> */}
       </NavbarContent>
 
       {/* <NavbarContent
