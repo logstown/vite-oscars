@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type DbUser = {
   uid: string;
   displayName: string | null;
@@ -22,5 +24,13 @@ export type Award = {
   sequence: number;
   points: number;
   winnder: string;
-  winnerStamp: any;
+  winnerStamp: Timestamp;
+};
+
+export type Pool = {
+  id: string;
+  name: string;
+  creator: string;
+  dateCreated: Timestamp;
+  users: string[];
 };

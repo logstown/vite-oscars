@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, orderBy, query, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "./config/firebase";
 import { Award, DbUser, Nominee, Picks } from "./config/models";
 
@@ -22,4 +22,16 @@ export const getUser = async (uid: string): Promise<DbUser | null> => {
 export const savePicks = async (uid: string, picks: Picks): Promise<void> => {
   const ref = doc(db, "users", uid);
   return updateDoc(ref, { picks });
+};
+
+export const createPool = async (uid: string, name: string): Promise<void> => {
+  const newPoolRef = doc(collection(db, "pools"));
+
+  return setDoc(newPoolRef, {
+    name,
+    creator: uid,
+    dateCreated: serverTimestamp(),
+    users: [uid],
+    id: newPoolRef.id,
+  });
 };

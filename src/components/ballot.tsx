@@ -39,7 +39,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
 
   return (
     <>
-      <Button startContent={<MenuIcon />} variant="light" onPress={onOpen}>
+      <Button startContent={<MenuIcon />} variant="ghost" onPress={onOpen}>
         Ballot
       </Button>
       <Drawer
@@ -83,7 +83,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                 )}
               </DrawerBody>
               {picks && (
-                <DrawerFooter className="border-t">
+                <DrawerFooter className="border-t-3">
                   <Button color="primary" isLoading={isSavePending} onPress={() => save(onClose)}>
                     Save
                   </Button>

@@ -1,15 +1,11 @@
 import { Link } from "@nextui-org/link";
 import { Navbar as NextUINavbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
-import { link as linkStyles } from "@nextui-org/theme";
-import clsx from "clsx";
-
-import { siteConfig } from "@/config/site";
-import { Logo } from "@/components/icons";
 import { AuthContext } from "@/config/auth-provider";
 import UserMenu from "./user-menu";
 import { useContext } from "react";
 import Ballot from "./ballot";
 import { TrophyIcon } from "lucide-react";
+import { ThemeSwitch } from "./theme-switch";
 
 export const Navbar = () => {
   const { currentUser } = useContext(AuthContext);
@@ -40,15 +36,10 @@ export const Navbar = () => {
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand className="gap-3 max-w-fit">
           <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
-            <TrophyIcon className="text-primary" size={24} />
+            <TrophyIcon size={36} />
             <p className="font-bold text-inherit">Oscar Showdown</p>
           </Link>
         </NavbarBrand>
-        {currentUser && (
-          <NavbarItem>
-            <Ballot currentUser={currentUser} />
-          </NavbarItem>
-        )}
         {/* <div className="hidden lg:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
@@ -130,6 +121,7 @@ export const Navbar = () => {
       </NavbarMenu> */}
       {currentUser && (
         <NavbarContent as="div" justify="end">
+          <ThemeSwitch />
           <UserMenu currentUser={currentUser} />
         </NavbarContent>
       )}
