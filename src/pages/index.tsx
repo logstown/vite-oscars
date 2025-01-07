@@ -11,7 +11,7 @@ export default function IndexPage() {
 
   return (
     <DefaultLayout>
-      {loading || !currentUser ? (
+      {loading ? (
         <Spinner />
       ) : currentUser ? (
         <div className="flex flex-col gap-8 items-start">

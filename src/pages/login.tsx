@@ -9,24 +9,28 @@ import { Input } from "@nextui-org/input";
 import { Link } from "@nextui-org/link";
 import { LockIcon, MailIcon } from "lucide-react";
 import { useContext, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 
 export default function LoginPage() {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const { currentUser } = useContext(AuthContext);
+  const [searchParams] = useSearchParams();
+  const poolId = searchParams.get("poolId");
 
-  const onGoogleSignIn = () => {
+  const onGoogleSignIn = async () => {
     if (!isSigningIn) {
       setIsSigningIn(true);
-      doSignInWithGoogle().catch((err) => {
+      try {
+        await doSignInWithGoogle();
+      } finally {
         setIsSigningIn(false);
-      });
+      }
     }
   };
   return (
     // <div className="flex justify-center p-20">
     <DefaultLayout>
-      {currentUser && <Navigate to={"/"} replace={true} />}
+      {currentUser && (poolId ? <Navigate to={`/join-pool/${poolId}`} replace={true} /> : <Navigate to={"/"} replace={true} />)}
       <div className="flex justify-center">
         <Card className="w-full max-w-sm">
           <CardHeader>Login</CardHeader>
@@ -42,7 +46,7 @@ export default function LoginPage() {
               type="password"
               variant="bordered"
             />
-            <Button size="lg" color="primary" fullWidth>
+            <Button color="primary" fullWidth>
               Sign in
             </Button>
             <p className="text-center">
@@ -54,7 +58,6 @@ export default function LoginPage() {
               <Divider className="my-4 w-20" />
             </div>
             <Button
-              size="lg"
               color="default"
               disabled={isSigningIn}
               variant="ghost"

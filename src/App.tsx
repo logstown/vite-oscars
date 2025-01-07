@@ -7,6 +7,7 @@ import BlogPage from "@/pages/blog";
 import AboutPage from "@/pages/about";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
+import JoinPoolPage from "./pages/join-pool";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route element={<AboutPage />} path="/about" />
       <Route element={<LoginPage />} path="/login" />
       <Route element={<RegisterPage />} path="/register" />
+      <Route element={<JoinPoolPage />} path="/join-pool/:poolId" />
     </Routes>
   );
 }

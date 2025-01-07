@@ -27,13 +27,11 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
   }, [currentUser]);
 
   return (
-    <div className="flex flex-col gap-8 items-center">
-      <div className="flex gap-8 items-start">
-        {pools.map((pool) => (
-          <PoolCard currentUser={currentUser} pool={pool} key={pool.id} />
-        ))}
-        <CreatePoolButton currentUser={currentUser} />
-      </div>
+    <div className="flex gap-8 items-start">
+      {pools.map((pool) => (
+        <PoolCard currentUser={currentUser} pool={pool} key={pool.id} />
+      ))}
+      <CreatePoolButton currentUser={currentUser} />
     </div>
   );
 }

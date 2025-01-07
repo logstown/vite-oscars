@@ -31,19 +31,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (authUser) => {
       setUid(authUser?.uid);
 
-      if (!authUser) {
-        return;
-      }
+      if (authUser) {
+        const { uid, displayName, photoURL } = authUser;
 
-      const { uid, displayName, photoURL } = authUser;
+        const ref = doc(db, "users", uid);
+        const dbUserSnap = await getDoc(ref);
 
-      const ref = doc(db, "users", uid);
-      const dbUserSnap = await getDoc(ref);
-
-      if (dbUserSnap.exists()) {
-        updateDoc(ref, { photoURL, displayName });
-      } else {
-        await setDoc(ref, { uid, displayName, photoURL, picks: {}, points: 0, gotLastAwardCorrect: true });
+        if (dbUserSnap.exists()) {
+          updateDoc(ref, { photoURL, displayName });
+        } else {
+          await setDoc(ref, { uid, displayName, photoURL, picks: {}, points: 0, gotLastAwardCorrect: true });
+        }
       }
 
       setLoading(false);
