@@ -42,7 +42,10 @@ export default function JoinPoolPage() {
         return Promise.resolve(null);
       }
     },
-    onSuccess: () => setRedirectUrl("/"),
+    onSuccess: () => {
+      //TODO toast it!
+      setRedirectUrl("/");
+    },
   });
 
   useEffect(() => {
