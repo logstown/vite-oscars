@@ -4,7 +4,6 @@ import { AuthContext } from "@/config/auth-provider";
 import UserMenu from "./user-menu";
 import { useContext } from "react";
 import Ballot from "./ballot";
-import { TrophyIcon } from "lucide-react";
 import { ThemeSwitch } from "./theme-switch";
 
 export const Navbar = () => {
@@ -33,10 +32,10 @@ export const Navbar = () => {
 
   return (
     <NextUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
+      <NavbarContent justify="start">
+        {currentUser && <Ballot currentUser={currentUser} />}
+        <NavbarBrand className="gap-3 max-w-fit hidden sm:block pl-4">
           <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
-            <TrophyIcon size={36} />
             <p className="font-bold text-inherit">Oscar Showdown</p>
           </Link>
         </NavbarBrand>
@@ -56,6 +55,13 @@ export const Navbar = () => {
             </NavbarItem>
           ))}
         </div> */}
+      </NavbarContent>
+      <NavbarContent justify="start" className="sm:hidden">
+        <NavbarBrand className="gap-3 max-w-fit">
+          <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
+            <p className="font-bold text-inherit">Oscar Showdown</p>
+          </Link>
+        </NavbarBrand>
       </NavbarContent>
 
       {/* <NavbarContent

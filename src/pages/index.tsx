@@ -3,7 +3,6 @@ import DefaultLayout from "@/layouts/default";
 import { useContext } from "react";
 import LandingPage from "./landing";
 import { Spinner } from "@nextui-org/spinner";
-import Ballot from "@/components/ballot";
 import { Pools } from "@/components/pools";
 
 export default function IndexPage() {
@@ -15,7 +14,6 @@ export default function IndexPage() {
         <Spinner />
       ) : currentUser ? (
         <div className="flex flex-col gap-8 items-start">
-          <Ballot currentUser={currentUser} />
           <Pools currentUser={currentUser} />
         </div>
       ) : (

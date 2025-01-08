@@ -2,7 +2,6 @@ import { doSignOut } from "@/config/auth";
 import { DbUser } from "@/config/models";
 import { Avatar } from "@nextui-org/avatar";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/dropdown";
-import { User } from "firebase/auth";
 
 export default function UserMenu({ currentUser: { displayName, photoURL } }: { currentUser: DbUser }) {
   return (

@@ -1,6 +1,7 @@
 import { getUser, removeUserFromPool } from "@/api";
 import { Pool } from "@/config/models";
 import { Button } from "@nextui-org/button";
+import { Tooltip } from "@nextui-org/react";
 import { User } from "@nextui-org/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CheckIcon, CircleAlertIcon, CrownIcon, XIcon } from "lucide-react";
@@ -43,12 +44,18 @@ export function PoolUser({
     return null;
   }
 
+  const numPicks = Object.keys(user.picks).length;
+
   return (
     <div className="flex group items-center gap-6">
-      {Object.keys(user.picks ?? {}).length === awardsLength ? (
-        <CheckIcon className="text-success-500" />
+      {numPicks === awardsLength ? (
+        <Tooltip content="All done!">
+          <CheckIcon className="text-success-500" />
+        </Tooltip>
       ) : (
-        <CircleAlertIcon className="text-warning-500" />
+        <Tooltip content={`${numPicks} / ${awardsLength} Chosen`}>
+          <CircleAlertIcon className="text-warning-500" />
+        </Tooltip>
       )}
       <User
         classNames={{
@@ -61,19 +68,23 @@ export function PoolUser({
         name={user.displayName}
       />
       {user.uid === pool.creator ? (
-        <CrownIcon className="dark:text-yellow-200 text-yellow-700 w-10" />
+        <Tooltip content="Pool Creator">
+          <CrownIcon className="dark:text-yellow-200 text-yellow-700 w-10" />
+        </Tooltip>
       ) : (
         isCurrentUserCreator && (
-          <Button
-            isIconOnly
-            variant="light"
-            isLoading={isLeavePending}
-            color="danger"
-            onPress={() => leavePool(user.uid)}
-            className="group-hover:inline-flex hidden"
-          >
-            <XIcon className="text-default-500" />
-          </Button>
+          <Tooltip content="Remove User">
+            <Button
+              isIconOnly
+              variant="light"
+              isLoading={isLeavePending}
+              color="danger"
+              onPress={() => leavePool(user.uid)}
+              className="group-hover:inline-flex hidden"
+            >
+              <XIcon />
+            </Button>
+          </Tooltip>
         )
       )}
     </div>

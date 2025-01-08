@@ -75,7 +75,13 @@ export function PoolCard({ currentUser, pool }: { currentUser: DbUser; pool: Poo
       <CardBody className="max-h-[650px]">
         <div className="flex flex-col gap-4">
           {pool.users.map((uid) => (
-            <PoolUser uid={uid} pool={pool} isCurrentUserCreator={isCurrentUserCreator} awardsLength={awards?.length ?? 0} />
+            <PoolUser
+              key={uid}
+              uid={uid}
+              pool={pool}
+              isCurrentUserCreator={isCurrentUserCreator}
+              awardsLength={awards?.length ?? 0}
+            />
           ))}
         </div>
       </CardBody>
