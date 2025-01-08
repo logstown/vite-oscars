@@ -7,6 +7,7 @@ import { Button } from "@nextui-org/button";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import copy from "clipboard-copy";
 import { PoolUser } from "./pool-user";
+import { toast } from "sonner";
 
 export function PoolCard({ currentUser, pool }: { currentUser: DbUser; pool: Pool }) {
   const isCurrentUserCreator = currentUser.uid === pool.creator;
@@ -39,8 +40,7 @@ export function PoolCard({ currentUser, pool }: { currentUser: DbUser; pool: Poo
 
   const copyLink = () => {
     copy(`${window.location.origin}/join-pool/${pool.id}`);
-    // TODO
-    // toast.success('Link copied to clipboard!')
+    toast.info("Link copied to clipboard!");
   };
 
   return (

@@ -5,6 +5,7 @@ import { Spinner } from "@nextui-org/spinner";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext, useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function JoinPoolPage() {
   let { poolId } = useParams();
@@ -43,7 +44,7 @@ export default function JoinPoolPage() {
       }
     },
     onSuccess: () => {
-      //TODO toast it!
+      toast.success(`You have joined ${poolToJoin?.name}`);
       setRedirectUrl("/");
     },
   });

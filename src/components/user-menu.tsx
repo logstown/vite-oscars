@@ -9,6 +9,7 @@ export default function UserMenu({ currentUser: { displayName, photoURL } }: { c
       <DropdownTrigger>
         <Avatar
           isBordered
+          showFallback
           as="button"
           className="transition-transform"
           color="secondary"
