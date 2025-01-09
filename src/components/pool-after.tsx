@@ -1,0 +1,154 @@
+import { getUser } from "@/api";
+import { Pool, Award, DbUser, Nominee } from "@/config/models";
+import { AwardsContext } from "@/hooks/awards-context";
+import { Card, CardHeader, CardBody } from "@nextui-org/card";
+import { Progress } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
+import { chain, maxBy, map, omit, minBy } from "lodash";
+import { useContext, useState, useEffect } from "react";
+import { PoolUserDisplay } from "./pool-user-display";
+
+type UserRow = {
+  photoURL: string | null;
+  displayName: string | null;
+  progressColor: any;
+  points: number;
+  uid: string;
+  outOfIt: boolean;
+};
+
+export function PoolAfter({ pool }: { pool: Pool }) {
+  const awards = useContext(AwardsContext);
+  const [userRows, setUserRows] = useState<UserRow[]>([]);
+  const [totalPoints, setTotalPoints] = useState(0);
+
+  const {
+    data: poolUsers,
+    isPending: arePoolUsersPending,
+    // error,
+  } = useQuery({
+    queryKey: ["poolUsers", pool.id],
+    queryFn: async () => {
+      const promises = pool.users.map(async (userId) => getUser(userId));
+      const users = await Promise.all(promises);
+      return users.filter((x) => !!x);
+    },
+  });
+
+  useEffect(() => {
+    if (!awards || !poolUsers) {
+      return;
+    }
+
+    const totalPoints = chain(awards)
+      .reduce((sum: number, award: Award) => {
+        sum += award.points;
+        return sum;
+      }, 0)
+      .value();
+    setTotalPoints(totalPoints);
+
+    const latestAward = maxBy(awards, (x) => x.winnerStamp.toMillis());
+    const users = chain(poolUsers)
+      .map(({ picks, displayName, photoURL, uid }) => {
+        const points = chain(awards)
+          .filter("winner")
+          .reduce((sum: number, award: Award) => {
+            if (picks[award.id]?.id === award.winner) {
+              sum += award.points;
+            }
+
+            return sum;
+          }, 0)
+          .value();
+
+        let progressColor = "primary";
+        if (latestAward) {
+          if (picks[latestAward.id]?.id === latestAward.winner) {
+            progressColor = "success";
+          } else {
+            progressColor = "danger";
+          }
+        }
+
+        return {
+          points,
+          progressColor,
+          outOfIt: false,
+          displayName,
+          photoURL,
+          picks,
+          uid,
+        };
+      })
+      .orderBy("points", "desc")
+      .value();
+
+    getFinalUsers(users, awards);
+
+    setUserRows(map(users, (user) => omit(user, "picks")));
+  }, [awards, poolUsers]);
+
+  function getFinalUsers(users: (DbUser & { points: number; progressColor: any; outOfIt: boolean })[], awards: Award[]) {
+    for (let i = 0; i < users.length; i++) {
+      const user1 = users[i];
+
+      for (let j = i + 1; j < users.length; j++) {
+        const user2 = users[j];
+
+        const possiblePoints = getPossiblePoints(user1.picks, user2.picks, awards);
+        if (possiblePoints < Math.abs(user1.points - user2.points)) {
+          const loser = minBy([user1, user2], "points");
+          loser!.outOfIt = true;
+        }
+      }
+    }
+  }
+
+  function getPossiblePoints(picks1: Record<string, Nominee>, picks2: Record<string, Nominee>, awards: Award[]): number {
+    return chain(awards)
+      .reject("winner")
+      .reduce((sum: number, award: Award) => {
+        if (picks1[award.id]?.id !== picks2[award.id]?.id) {
+          sum += award.points;
+        }
+        return sum;
+      }, 0)
+      .value();
+  }
+
+  return (
+    <Card className="min-w-[350px]">
+      <CardHeader className="flex-col items-start">
+        <h3 className="text-2xl font-semibold">{pool.name}</h3>
+        <small className="text-default-500">{pool.users.length} members</small>
+      </CardHeader>
+      <CardBody>
+        <ul className="flex flex-col">
+          {userRows.map((userRow) => (
+            <motion.li
+              key={userRow.uid}
+              className={`p-4 ${userRow.outOfIt ? "bg-default-200" : ""}`}
+              layout
+              transition={{ type: "spring", mass: 0.5, stiffness: 50 }}
+            >
+              <div className="flex justify-between items-center">
+                <PoolUserDisplay displayName={userRow.displayName} photoURL={userRow.photoURL} />
+                <div>{userRow.points}</div>
+              </div>
+              <Progress
+                className="mt-2"
+                aria-label="Points"
+                size="sm"
+                value={userRow.points}
+                color={userRow.progressColor}
+                maxValue={totalPoints}
+              />
+            </motion.li>
+          ))}
+        </ul>
+      </CardBody>
+    </Card>
+  );
+}

@@ -3,10 +3,11 @@ import { CreatePoolButton } from "./create-pool-button";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/config/firebase";
-import { PoolAfter, PoolBefore } from "./pool";
+import { PoolBefore } from "./pool-before";
 import { AwardsProvider } from "@/hooks/awards-context";
 import { useCurrentTime } from "@/hooks/current-time";
 import { ceremonyStart } from "@/config/constants";
+import { PoolAfter } from "./pool-after";
 
 export function Pools({ currentUser }: { currentUser: DbUser }) {
   const [pools, setPools] = useState<Pool[]>([]);
@@ -38,7 +39,7 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
             currentTime > ceremonyStart ? (
               <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
             ) : (
-              <PoolAfter currentUser={currentUser} pool={pool} key={pool.id} />
+              <PoolAfter pool={pool} key={pool.id} />
             )
           )}
         </div>

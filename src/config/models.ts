@@ -5,8 +5,6 @@ export type DbUser = {
   displayName: string | null;
   photoURL: string | null;
   picks: Picks;
-  points: number;
-  gotLastAwardCorrect: boolean;
 };
 
 export type Nominee = {
