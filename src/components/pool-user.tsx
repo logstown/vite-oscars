@@ -5,6 +5,7 @@ import { Tooltip } from "@nextui-org/react";
 import { User } from "@nextui-org/user";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { CheckIcon, CircleAlertIcon, CrownIcon, XIcon } from "lucide-react";
+import { PoolUserDisplay } from "./pool-user-display";
 
 export function PoolUser({
   uid,
@@ -74,16 +75,7 @@ export function PoolUser({
           <CircleAlertIcon className="text-warning-500" />
         </Tooltip>
       )}
-      <User
-        classNames={{
-          name: "w-32 truncate",
-        }}
-        avatarProps={{
-          showFallback: true,
-          src: user.photoURL ?? undefined,
-        }}
-        name={user.displayName}
-      />
+      <PoolUserDisplay photoURL={user.photoURL} displayName={user.displayName} />
       {user.uid === pool.creator ? (
         <Tooltip content="Pool Creator">
           <CrownIcon className="dark:text-yellow-200 text-yellow-700 w-10" />

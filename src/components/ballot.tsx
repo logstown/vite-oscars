@@ -1,24 +1,17 @@
 import { Button } from "@nextui-org/button";
 import { Drawer, DrawerBody, DrawerContent, DrawerFooter, DrawerHeader } from "@nextui-org/drawer";
 import { Card, CardBody, Radio, RadioGroup, Spinner, useDisclosure } from "@nextui-org/react";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getAwards, savePicks } from "@/api";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { savePicks } from "@/api";
+import { useContext, useState } from "react";
 import { Award, DbUser, Nominee, Picks } from "@/config/models";
 import { MenuIcon } from "lucide-react";
+import { AwardsContext } from "@/hooks/awards-context";
 
 export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [picks, setPicks] = useState<Picks>();
-
-  const {
-    data,
-    isPending: areAwardsPending,
-    error,
-  } = useQuery({
-    queryKey: ["awards"],
-    queryFn: () => getAwards(),
-  });
+  const awards = useContext(AwardsContext);
 
   const { mutate: save, isPending: isSavePending } = useMutation({
     mutationFn: (onClose: () => void) => savePicks(currentUser!.uid, picks!),
@@ -55,11 +48,11 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
             <>
               <DrawerHeader className="justify-center">Ballot</DrawerHeader>
               <DrawerBody>
-                {areAwardsPending || !currentUser ? (
+                {!currentUser ? (
                   <Spinner />
                 ) : (
                   <div className="flex flex-col gap-8">
-                    {data?.map((award) => (
+                    {awards?.map((award) => (
                       <Card key={award.id} className="p-2">
                         {/* <CardHeader className="font-bold">{x.award}</CardHeader> */}
                         <CardBody>

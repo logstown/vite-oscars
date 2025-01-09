@@ -23,7 +23,7 @@ export type Award = {
   nominees: Nominee[];
   sequence: number;
   points: number;
-  winnder: string;
+  winner: string;
   winnerStamp: Timestamp;
 };
 

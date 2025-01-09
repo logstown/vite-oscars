@@ -5,7 +5,7 @@ import {
   deleteDoc,
   doc,
   getDoc,
-  getDocs,
+  onSnapshot,
   orderBy,
   query,
   serverTimestamp,
@@ -15,10 +15,15 @@ import {
 import { db } from "./config/firebase";
 import { Award, DbUser, Picks, Pool } from "./config/models";
 
-export const getAwards = async (): Promise<Award[]> => {
+export const listenToAwards = (cb: (awards: Award[]) => void) => {
   const q = query(collection(db, "awards"), orderBy("sequence"));
-  const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => doc.data() as Award);
+
+  return onSnapshot(q, (querySnapshot) => {
+    const awards: Award[] = [];
+    querySnapshot.forEach((x) => awards.push(x.data() as Award));
+
+    cb(awards);
+  });
 };
 
 export const getUser = async (uid: string): Promise<DbUser | null> => {
