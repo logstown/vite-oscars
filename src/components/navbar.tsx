@@ -1,13 +1,18 @@
-import { Link } from "@nextui-org/link";
-import { Navbar as NextUINavbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/navbar";
-import { AuthContext } from "@/config/auth-provider";
-import UserMenu from "./user-menu";
-import { useContext } from "react";
-import Ballot from "./ballot";
-import { ThemeSwitch } from "./theme-switch";
+import { Link } from '@nextui-org/link'
+import {
+  Navbar as NextUINavbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+} from '@nextui-org/navbar'
+import { AuthContext } from '@/config/auth-provider'
+import UserMenu from './user-menu'
+import { useContext } from 'react'
+import Ballot from './ballot'
+import { ThemeSwitch } from './theme-switch'
 
 export const Navbar = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext)
 
   // const searchInput = (
   //   <Input
@@ -31,12 +36,16 @@ export const Navbar = () => {
   // );
 
   return (
-    <NextUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent justify="start">
+    <NextUINavbar maxWidth='xl' position='sticky'>
+      <NavbarContent justify='start'>
         {currentUser && <Ballot currentUser={currentUser} />}
-        <NavbarBrand className="gap-3 max-w-fit hidden sm:block pl-4">
-          <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
-            <p className="font-bold text-inherit">Oscar Showdown</p>
+        <NavbarBrand className='gap-3 max-w-fit hidden sm:block pl-4'>
+          <Link
+            className='flex justify-start items-center gap-3'
+            color='foreground'
+            href='/'
+          >
+            <p className='font-bold text-inherit'>Oscar Showdown</p>
           </Link>
         </NavbarBrand>
         {/* <div className="hidden lg:flex gap-4 justify-start ml-2">
@@ -56,10 +65,14 @@ export const Navbar = () => {
           ))}
         </div> */}
       </NavbarContent>
-      <NavbarContent justify="start" className="sm:hidden">
-        <NavbarBrand className="gap-3 max-w-fit">
-          <Link className="flex justify-start items-center gap-3" color="foreground" href="/">
-            <p className="font-bold text-inherit">Oscar Showdown</p>
+      <NavbarContent justify='start' className='sm:hidden'>
+        <NavbarBrand className='gap-3 max-w-fit'>
+          <Link
+            className='flex justify-start items-center gap-3'
+            color='foreground'
+            href='/'
+          >
+            <p className='font-bold text-inherit'>Oscar Showdown</p>
           </Link>
         </NavbarBrand>
       </NavbarContent>
@@ -126,11 +139,11 @@ export const Navbar = () => {
         </div>
       </NavbarMenu> */}
       {currentUser && (
-        <NavbarContent as="div" justify="end">
+        <NavbarContent as='div' justify='end'>
           <ThemeSwitch />
           <UserMenu currentUser={currentUser} />
         </NavbarContent>
       )}
     </NextUINavbar>
-  );
-};
+  )
+}

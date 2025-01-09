@@ -11,39 +11,39 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-} from "firebase/firestore";
-import { db } from "./config/firebase";
-import { Award, DbUser, Picks, Pool } from "./config/models";
+} from 'firebase/firestore'
+import { db } from './config/firebase'
+import { Award, DbUser, Picks, Pool } from './config/models'
 
 export const listenToAwards = (cb: (awards: Award[]) => void) => {
-  const q = query(collection(db, "awards"), orderBy("sequence"));
+  const q = query(collection(db, 'awards'), orderBy('sequence'))
 
-  return onSnapshot(q, (querySnapshot) => {
-    const awards: Award[] = [];
-    querySnapshot.forEach((x) => awards.push(x.data() as Award));
+  return onSnapshot(q, querySnapshot => {
+    const awards: Award[] = []
+    querySnapshot.forEach(x => awards.push(x.data() as Award))
 
-    cb(awards);
-  });
-};
+    cb(awards)
+  })
+}
 
 export const getUser = async (uid: string): Promise<DbUser | null> => {
-  const docRef = doc(db, "users", uid);
-  const docSnap = await getDoc(docRef);
+  const docRef = doc(db, 'users', uid)
+  const docSnap = await getDoc(docRef)
 
   if (docSnap.exists()) {
-    return docSnap.data() as DbUser;
+    return docSnap.data() as DbUser
   } else {
-    return null;
+    return null
   }
-};
+}
 
 export const savePicks = async (uid: string, picks: Picks): Promise<void> => {
-  const ref = doc(db, "users", uid);
-  return updateDoc(ref, { picks });
-};
+  const ref = doc(db, 'users', uid)
+  return updateDoc(ref, { picks })
+}
 
 export const createPool = async (uid: string, name: string): Promise<void> => {
-  const newPoolRef = doc(collection(db, "pools"));
+  const newPoolRef = doc(collection(db, 'pools'))
 
   return setDoc(newPoolRef, {
     name,
@@ -51,32 +51,38 @@ export const createPool = async (uid: string, name: string): Promise<void> => {
     dateCreated: serverTimestamp(),
     users: [uid],
     id: newPoolRef.id,
-  });
-};
+  })
+}
 
 export const getPool = async (id: string): Promise<Pool | null> => {
-  const docRef = doc(db, "pools", id);
-  const docSnap = await getDoc(docRef);
+  const docRef = doc(db, 'pools', id)
+  const docSnap = await getDoc(docRef)
 
   if (docSnap.exists()) {
-    return docSnap.data() as Pool;
+    return docSnap.data() as Pool
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export const addUserToPool = async (uid: string, poolId: string): Promise<void> => {
-  return updateDoc(doc(db, "pools", poolId), {
+export const addUserToPool = async (
+  uid: string,
+  poolId: string,
+): Promise<void> => {
+  return updateDoc(doc(db, 'pools', poolId), {
     users: arrayUnion(uid),
-  });
-};
+  })
+}
 
 export const deletePool = async (poolId: string): Promise<void> => {
-  return deleteDoc(doc(db, "pools", poolId));
-};
+  return deleteDoc(doc(db, 'pools', poolId))
+}
 
-export const removeUserFromPool = async (uid: string, poolId: string): Promise<void> => {
-  return updateDoc(doc(db, "pools", poolId), {
+export const removeUserFromPool = async (
+  uid: string,
+  poolId: string,
+): Promise<void> => {
+  return updateDoc(doc(db, 'pools', poolId), {
     users: arrayRemove(uid),
-  });
-};
+  })
+}

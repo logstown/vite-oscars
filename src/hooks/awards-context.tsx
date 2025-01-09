@@ -1,19 +1,21 @@
-import { listenToAwards } from "@/api";
-import { Award } from "@/config/models";
-import React, { createContext, useEffect, useState } from "react";
+import { listenToAwards } from '@/api'
+import { Award } from '@/config/models'
+import React, { createContext, useEffect, useState } from 'react'
 
-export const AwardsContext = createContext<Award[]>([]);
+export const AwardsContext = createContext<Award[]>([])
 
 export const AwardsProvider = ({ children }: { children: React.ReactNode }) => {
-  const [awards, setAwards] = useState<Award[]>([]);
+  const [awards, setAwards] = useState<Award[]>([])
 
   useEffect(() => {
-    const unsub = listenToAwards((awards) => setAwards(awards));
+    const unsub = listenToAwards(awards => setAwards(awards))
 
     return () => {
-      unsub();
-    };
-  }, []);
+      unsub()
+    }
+  }, [])
 
-  return <AwardsContext.Provider value={awards}>{children}</AwardsContext.Provider>;
-};
+  return (
+    <AwardsContext.Provider value={awards}>{children}</AwardsContext.Provider>
+  )
+}
