@@ -5,6 +5,7 @@ import { useHref, useNavigate } from 'react-router-dom'
 import { AuthProvider } from './config/auth-provider'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
+import { AwardsProvider } from './hooks/awards-context'
 
 declare module '@react-types/shared' {
   interface RouterConfig {
@@ -21,7 +22,9 @@ export function Provider({ children }: { children: React.ReactNode }) {
     <NextUIProvider navigate={navigate} useHref={useHref}>
       <Toaster />
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>{children}</AuthProvider>
+        <AwardsProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </AwardsProvider>
       </QueryClientProvider>
     </NextUIProvider>
   )

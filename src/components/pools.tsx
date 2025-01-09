@@ -24,8 +24,6 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
         poolsArr.push(doc.data() as Pool)
       })
 
-      console.log(poolsArr)
-
       setPools(poolsArr)
     })
 
@@ -36,17 +34,15 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
 
   return (
     <>
-      <AwardsProvider>
-        <div className='flex  gap-8 items-start justify-center w-full'>
-          {pools.map(pool =>
-            currentTime > ceremonyStart ? (
-              <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
-            ) : (
-              <PoolAfter pool={pool} key={pool.id} />
-            ),
-          )}
-        </div>
-      </AwardsProvider>
+      <div className='flex  gap-8 items-start justify-center w-full'>
+        {pools.map(pool =>
+          currentTime > ceremonyStart ? (
+            <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
+          ) : (
+            <PoolAfter pool={pool} key={pool.id} />
+          ),
+        )}
+      </div>
       {currentTime > ceremonyStart && (
         <div className='text-center w-full mt-8'>
           <CreatePoolButton currentUser={currentUser} />
