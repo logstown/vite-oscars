@@ -35,6 +35,7 @@
 		"@tanstack/react-query": "^5.62.11",
 		"clipboard-copy": "^4.0.1",
 		"clsx": "2.1.1",
+		"date-fns": "^4.1.0",
 		"firebase": "^11.1.0",
 		"framer-motion": "11.15.0",
 		"lucide-react": "^0.469.0",

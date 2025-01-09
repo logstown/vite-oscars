@@ -44,6 +44,23 @@ export function PoolUser({
     return null;
   }
 
+  // for(let i = 0; i < poolUsers.length; i++) {
+  //   const user1 = poolUsers[i];
+
+  //   for(let j = i+1; j < poolUsers.length; j++) {
+  //     const user2 = poolUsers[j]
+
+  //     const possiblePoints = getPossiblePoints(user1.picks, user2.picks)
+  //     if(possiblePoints < Math.abs(user1.points - user2.points)) {
+  //       if(user1.points < user2.points) {
+  //         user1.outOfIt = true
+  //       } else {
+  //         user2.outOfIt = true
+  //       }
+  //     }
+  //   }
+  // }
+
   const numPicks = Object.keys(user.picks).length;
 
   return (
