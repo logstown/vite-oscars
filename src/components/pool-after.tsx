@@ -47,76 +47,12 @@ export function PoolAfter({ pool }: { pool: Pool }) {
         return sum;
       }, 0)
       .value();
+
     setTotalPoints(totalPoints);
 
-    const latestAward = maxBy(awards, (x) => x.winnerStamp.toMillis());
-    const users = chain(poolUsers)
-      .map(({ picks, displayName, photoURL, uid }) => {
-        const points = chain(awards)
-          .filter("winner")
-          .reduce((sum: number, award: Award) => {
-            if (picks[award.id]?.id === award.winner) {
-              sum += award.points;
-            }
-
-            return sum;
-          }, 0)
-          .value();
-
-        let progressColor = "primary";
-        if (latestAward) {
-          if (picks[latestAward.id]?.id === latestAward.winner) {
-            progressColor = "success";
-          } else {
-            progressColor = "danger";
-          }
-        }
-
-        return {
-          points,
-          progressColor,
-          outOfIt: false,
-          displayName,
-          photoURL,
-          picks,
-          uid,
-        };
-      })
-      .orderBy("points", "desc")
-      .value();
-
-    getFinalUsers(users, awards);
-
-    setUserRows(map(users, (user) => omit(user, "picks")));
+    const userRows = getUpdatedUsers(poolUsers, awards);
+    setUserRows(userRows);
   }, [awards, poolUsers]);
-
-  function getFinalUsers(users: (DbUser & { points: number; progressColor: any; outOfIt: boolean })[], awards: Award[]) {
-    for (let i = 0; i < users.length; i++) {
-      const user1 = users[i];
-
-      for (let j = i + 1; j < users.length; j++) {
-        const user2 = users[j];
-
-        const possiblePoints = getPossiblePoints(user1.picks, user2.picks, awards);
-        if (possiblePoints < Math.abs(user1.points - user2.points)) {
-          const loser = minBy([user1, user2], "points");
-          loser!.outOfIt = true;
-        }
-      }
-    }
-  }
-
-  function getPossiblePoints(picks1: Record<string, Nominee>, picks2: Record<string, Nominee>, awards: Award[]): number {
-    return chain(awards)
-      .reject("winner")
-      .reduce((sum: number, award: Award) => {
-        if (picks1[award.id]?.id !== picks2[award.id]?.id) {
-          sum += award.points;
-        }
-        return sum;
-      }, 0)
-      .value();
-  }
 
   return (
     <Card className="min-w-[350px]">
@@ -151,4 +87,71 @@ export function PoolAfter({ pool }: { pool: Pool }) {
       </CardBody>
     </Card>
   );
+}
+
+function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
+  const latestAward = maxBy(awards, (x) => x.winnerStamp.toMillis());
+
+  const users = chain(poolUsers)
+    .map(({ picks, displayName, photoURL, uid }) => {
+      const points = chain(awards)
+        .filter("winner")
+        .reduce((sum: number, award: Award) => {
+          if (picks[award.id]?.id === award.winner) {
+            sum += award.points;
+          }
+
+          return sum;
+        }, 0)
+        .value();
+
+      let progressColor = "primary";
+      if (latestAward) {
+        if (picks[latestAward.id]?.id === latestAward.winner) {
+          progressColor = "success";
+        } else {
+          progressColor = "danger";
+        }
+      }
+
+      return {
+        points,
+        progressColor,
+        outOfIt: false,
+        displayName,
+        photoURL,
+        picks,
+        uid,
+      };
+    })
+    .orderBy("points", "desc")
+    .value();
+
+  for (let i = 0; i < users.length; i++) {
+    const user1 = users[i];
+
+    for (let j = i + 1; j < users.length; j++) {
+      const user2 = users[j];
+
+      const possiblePoints = getPossiblePoints(user1.picks, user2.picks, awards);
+      if (possiblePoints < Math.abs(user1.points - user2.points)) {
+        const loser = minBy([user1, user2], "points");
+        loser!.outOfIt = true;
+      }
+    }
+  }
+
+  return map(users, (user) => omit(user, "picks"));
+}
+
+function getPossiblePoints(picks1: Record<string, Nominee>, picks2: Record<string, Nominee>, awards: Award[]): number {
+  return chain(awards)
+    .reject("winner")
+    .reduce((sum: number, award: Award) => {
+      if (picks1[award.id]?.id !== picks2[award.id]?.id) {
+        sum += award.points;
+      }
+      return sum;
+    }, 0)
+    .value();
 }
