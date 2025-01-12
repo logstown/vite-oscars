@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '@/config/firebase'
 import { PoolBefore } from './pool-before'
-import { AwardsProvider } from '@/hooks/awards-context'
-import { useCurrentTime } from '@/hooks/current-time'
-import { ceremonyStart } from '@/config/constants'
 import { PoolAfter } from './pool-after'
+import { useQueryClient } from '@tanstack/react-query'
+import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
 
 export function Pools({ currentUser }: { currentUser: DbUser }) {
   const [pools, setPools] = useState<Pool[]>([])
-  const { currentTime } = useCurrentTime()
+  const { isAfterCeremony } = useIsAfterCermony()
+  const queryClient = useQueryClient()
 
   useEffect(() => {
     const q = query(
@@ -25,6 +25,8 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
       })
 
       setPools(poolsArr)
+
+      queryClient.invalidateQueries({ queryKey: ['userPools'] })
     })
 
     return () => {
@@ -36,14 +38,14 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
     <>
       <div className='flex  gap-8 items-start justify-center w-full'>
         {pools.map(pool =>
-          currentTime > ceremonyStart ? (
-            <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
-          ) : (
+          isAfterCeremony ? (
             <PoolAfter pool={pool} key={pool.id} />
+          ) : (
+            <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
           ),
         )}
       </div>
-      {currentTime > ceremonyStart && (
+      {!isAfterCeremony && (
         <div className='text-center w-full mt-8'>
           <CreatePoolButton currentUser={currentUser} />
         </div>

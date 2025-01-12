@@ -5,12 +5,14 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
   serverTimestamp,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import { db } from './config/firebase'
 import { Award, DbUser, Picks, Pool } from './config/models'
@@ -35,6 +37,19 @@ export const getUser = async (uid: string): Promise<DbUser | null> => {
   } else {
     return null
   }
+}
+
+export const getPools = async (uid: string): Promise<Pool[]> => {
+  const q = query(
+    collection(db, 'pools'),
+    where('users', 'array-contains', uid),
+  )
+  const querySnapshot = await getDocs(q)
+
+  const pools: Pool[] = []
+  querySnapshot.forEach(x => pools.push(x.data() as Pool))
+
+  return pools
 }
 
 export const savePicks = async (uid: string, picks: Picks): Promise<void> => {
