@@ -120,7 +120,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                         </Select>
                       </div>
                     )}
-                    {arePoolUsersPending ? (
+                    {isAfterCeremony && arePoolUsersPending ? (
                       loading
                     ) : (
                       <div className='flex flex-col gap-8 mt-6'>
