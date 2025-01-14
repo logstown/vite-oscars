@@ -1,8 +1,6 @@
-# Vite & NextUI Template
+# Oscars Showdown
 
-This is a template for creating applications using Vite and NextUI (v2).
-
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/vite-template)
+My wife's family competes in an annual Oscar pool. Unsatisfied with the inefficiency of exchanging sheets of paper, I created this web app. Participates join pools, make their picks, then are able to view their standings live in realtime on Oscar night.
 
 ## Technologies Used
 
