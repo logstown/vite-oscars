@@ -1,7 +1,7 @@
 import { addUserToPool, getPool } from '@/api'
 import { AuthContext } from '@/config/auth-provider'
 import { DbUser, Pool } from '@/config/models'
-import { Spinner } from '@nextui-org/spinner'
+import { Spinner } from "@heroui/spinner"
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useContext, useEffect, useState } from 'react'
 import { Navigate, useParams } from 'react-router-dom'

@@ -2,11 +2,11 @@ import { GoogleIcon } from '@/components/icons'
 import { doSignInWithGoogle } from '@/config/auth'
 import { AuthContext } from '@/config/auth-provider'
 import DefaultLayout from '@/layouts/default'
-import { Button } from '@nextui-org/button'
-import { Card, CardBody, CardHeader } from '@nextui-org/card'
-import { Divider } from '@nextui-org/divider'
-import { Input } from '@nextui-org/input'
-import { Link } from '@nextui-org/link'
+import { Button } from "@heroui/button"
+import { Card, CardBody, CardHeader } from "@heroui/card"
+import { Divider } from "@heroui/divider"
+import { Input } from "@heroui/input"
+import { Link } from "@heroui/link"
 import { LockIcon, MailIcon } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
@@ -29,7 +29,8 @@ export default function LoginPage() {
   }
   return (
     // <div className="flex justify-center p-20">
-    <DefaultLayout>
+    // </div>
+    (<DefaultLayout>
       {currentUser &&
         (poolId ? (
           <Navigate to={`/join-pool/${poolId}`} replace={true} />
@@ -79,7 +80,6 @@ export default function LoginPage() {
           </CardBody>
         </Card>
       </div>
-    </DefaultLayout>
-    // </div>
-  )
+    </DefaultLayout>)
+  );
 }

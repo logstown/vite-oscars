@@ -1,7 +1,7 @@
 import { getUser, removeUserFromPool } from '@/api'
 import { Pool } from '@/config/models'
-import { Button } from '@nextui-org/button'
-import { Tooltip } from '@nextui-org/react'
+import { Button } from "@heroui/button"
+import { Tooltip } from "@heroui/react"
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CheckIcon, CircleAlertIcon, CrownIcon, XIcon } from 'lucide-react'
 import { PoolUserDisplay } from './pool-user-display'

@@ -1,13 +1,13 @@
 import { Award, DbUser, Nominee } from '@/config/models'
 import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
-import { Card, CardBody } from '@nextui-org/card'
+import { Card, CardBody } from "@heroui/card"
 import {
   Avatar,
   AvatarGroup,
   Radio,
   RadioGroup,
   Tooltip,
-} from '@nextui-org/react'
+} from "@heroui/react"
 import { TrophyIcon } from 'lucide-react'
 
 export function BallotAward({

@@ -1,15 +1,15 @@
 import { deletePool, removeUserFromPool } from '@/api'
 import { DbUser, Pool } from '@/config/models'
-import { Card, CardHeader, CardBody } from '@nextui-org/card'
+import { Card, CardHeader, CardBody } from "@heroui/card"
 import { useMutation } from '@tanstack/react-query'
 import { EllipsisVerticalIcon, LogOutIcon, ShareIcon } from 'lucide-react'
-import { Button } from '@nextui-org/button'
+import { Button } from "@heroui/button"
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from '@nextui-org/dropdown'
+} from "@heroui/dropdown"
 import copy from 'clipboard-copy'
 import { PoolUser } from './pool-user'
 import { toast } from 'sonner'

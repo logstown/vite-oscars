@@ -1,8 +1,8 @@
 import { getUser } from '@/api'
 import { Pool, Award, DbUser, Nominee } from '@/config/models'
 import { AwardsContext } from '@/hooks/awards-context'
-import { Card, CardHeader, CardBody } from '@nextui-org/card'
-import { Progress } from '@nextui-org/react'
+import { Card, CardHeader, CardBody } from "@heroui/card"
+import { Progress } from "@heroui/react"
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { chain, maxBy, map, omit, minBy } from 'lodash'

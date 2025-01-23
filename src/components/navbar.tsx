@@ -1,10 +1,10 @@
-import { Link } from '@nextui-org/link'
+import { Link } from "@heroui/link"
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-} from '@nextui-org/navbar'
+} from "@heroui/navbar"
 import { AuthContext } from '@/config/auth-provider'
 import UserMenu from './user-menu'
 import { useContext } from 'react'

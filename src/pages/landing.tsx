@@ -1,5 +1,5 @@
-import { Link } from '@nextui-org/link'
-import { button as buttonStyles } from '@nextui-org/theme'
+import { Link } from "@heroui/link"
+import { button as buttonStyles } from "@heroui/theme"
 
 import { title, subtitle } from '@/components/primitives'
 import { LogInIcon, UserPlusIcon } from 'lucide-react'

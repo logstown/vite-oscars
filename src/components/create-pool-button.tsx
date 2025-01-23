@@ -1,9 +1,9 @@
 import { createPool } from '@/api'
 import { DbUser } from '@/config/models'
-import { Button } from '@nextui-org/button'
-import { Input } from '@nextui-org/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover'
-import { Form } from '@nextui-org/react'
+import { Button } from "@heroui/button"
+import { Input } from "@heroui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "@heroui/popover"
+import { Form } from "@heroui/react"
 import { PlusIcon } from 'lucide-react'
 import { useState } from 'react'
 

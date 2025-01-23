@@ -2,7 +2,7 @@ import { AuthContext } from '@/config/auth-provider'
 import DefaultLayout from '@/layouts/default'
 import { useContext } from 'react'
 import LandingPage from './landing'
-import { Spinner } from '@nextui-org/spinner'
+import { Spinner } from "@heroui/spinner"
 import { Pools } from '@/components/pools'
 
 export default function IndexPage() {

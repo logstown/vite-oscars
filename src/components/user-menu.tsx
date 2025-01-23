@@ -1,12 +1,12 @@
 import { doSignOut } from '@/config/auth'
 import { DbUser } from '@/config/models'
-import { Avatar } from '@nextui-org/avatar'
+import { Avatar } from "@heroui/avatar"
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/dropdown'
+} from "@heroui/dropdown"
 
 export default function UserMenu({
   currentUser: { displayName, photoURL },

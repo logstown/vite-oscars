@@ -1,4 +1,4 @@
-import { User } from '@nextui-org/user'
+import { User } from "@heroui/user"
 
 export function PoolUserDisplay({
   photoURL,
