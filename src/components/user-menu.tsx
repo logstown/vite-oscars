@@ -1,12 +1,12 @@
 import { doSignOut } from '@/config/auth'
 import { DbUser } from '@/config/models'
-import { Avatar } from "@heroui/avatar"
+import { Avatar } from '@heroui/avatar'
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@heroui/dropdown"
+} from '@heroui/dropdown'
 
 export default function UserMenu({
   currentUser: { displayName, photoURL },
@@ -21,7 +21,7 @@ export default function UserMenu({
           showFallback
           as='button'
           className='transition-transform'
-          color='secondary'
+          color='primary'
           name={displayName || undefined}
           size='sm'
           src={photoURL || undefined}

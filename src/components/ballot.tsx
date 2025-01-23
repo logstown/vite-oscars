@@ -34,7 +34,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   const { mutate: save, isPending: isSavePending } = useMutation({
     mutationFn: (onClose: () => void) => savePicks(currentUser!.uid, picks),
     onSuccess: (data, onClose) => {
-      if (Object.keys(picks).length || 0 === awards!.length) {
+      if ((Object.keys(picks).length || 0) === awards.length) {
         toast.success('All awards chosen! You are ready for Oscars night!')
       }
       closeAndReset(onClose)
