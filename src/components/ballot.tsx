@@ -1,31 +1,44 @@
-import { Button } from "@heroui/button"
+import { Button } from '@heroui/button'
 import {
   Drawer,
   DrawerBody,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
-} from "@heroui/drawer"
-import { Select, SelectItem, Spinner, useDisclosure } from "@heroui/react"
+} from '@heroui/drawer'
+import {
+  Input,
+  Select,
+  SelectItem,
+  Spinner,
+  useDisclosure,
+} from '@heroui/react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { getPools, getUser, savePicks } from '@/api'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { Award, DbUser, Nominee, Picks } from '@/config/models'
-import { MenuIcon } from 'lucide-react'
+import { MenuIcon, SearchIcon } from 'lucide-react'
 import { AwardsContext } from '@/hooks/awards-context'
 import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
 import { BallotAward } from './ballot-award'
+import { toast } from 'sonner'
 
 export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const awards = useContext(AwardsContext)
-  const [picks, setPicks] = useState<Picks>()
+  const [picks, setPicks] = useState<Picks>({})
   const [selectedPoolId, setSelectedPoolId] = useState<string>('')
   const { isAfterCeremony } = useIsAfterCermony()
+  const [searchTerm, setSearchTerm] = useState('')
 
   const { mutate: save, isPending: isSavePending } = useMutation({
-    mutationFn: (onClose: () => void) => savePicks(currentUser!.uid, picks!),
-    onSuccess: (data, onClose) => closeAndReset(onClose),
+    mutationFn: (onClose: () => void) => savePicks(currentUser!.uid, picks),
+    onSuccess: (data, onClose) => {
+      if (Object.keys(picks).length || 0 === awards!.length) {
+        toast.success('All awards chosen! You are ready for Oscars night!')
+      }
+      closeAndReset(onClose)
+    },
   })
 
   const {
@@ -59,15 +72,33 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
     enabled: !!selectedPoolId,
   })
 
+  const awardsToDisplay = useMemo(() => {
+    if (!awards) return []
+
+    return awards.filter(award => {
+      if (searchTerm.length < 3) return true
+
+      return (
+        award.award.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        award.nominees.some(
+          nominee =>
+            nominee.nominee.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            nominee.film.toLowerCase().includes(searchTerm.toLowerCase()),
+        )
+      )
+    })
+  }, [awards, searchTerm])
+
   const setNewPick = (nomineeId: string, award: Award) => {
     const nominee = award.nominees.find((x: Nominee) => x.id === nomineeId)
-    const currentPicks = picks ? picks : currentUser!.picks
+    const currentPicks = isEmpty(picks) ? currentUser!.picks : picks
 
     setPicks({ ...currentPicks, [award.id]: nominee } as Picks)
   }
 
   const closeAndReset = (onClose: () => void) => {
-    setPicks(undefined)
+    setPicks({})
+    setSearchTerm('')
     onClose()
   }
 
@@ -91,8 +122,8 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
         isOpen={isOpen}
         size='lg'
         placement='left'
-        hideCloseButton={!!picks}
-        isDismissable={!picks}
+        hideCloseButton={!isEmpty(picks)}
+        isDismissable={isEmpty(picks)}
         onOpenChange={onOpenChange}
       >
         <DrawerContent>
@@ -120,15 +151,24 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                         </Select>
                       </div>
                     )}
+                    <div className='text-center'>
+                      <Input
+                        type='search'
+                        placeholder='Search'
+                        value={searchTerm}
+                        onValueChange={setSearchTerm}
+                        startContent={<SearchIcon size={20} />}
+                      />
+                    </div>
                     {isAfterCeremony && arePoolUsersPending ? (
                       loading
                     ) : (
                       <div className='flex flex-col gap-8 mt-6'>
-                        {awards?.map(award => (
+                        {awardsToDisplay.map(award => (
                           <BallotAward
                             key={award.id}
                             award={award}
-                            userPick={currentUser.picks?.[award.id]}
+                            userPick={currentUser.picks[award.id]}
                             poolUsers={poolUsers}
                             isSavePending={isSavePending}
                             setNewPick={setNewPick}
@@ -139,7 +179,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                   </div>
                 )}
               </DrawerBody>
-              {picks && (
+              {!isEmpty(picks) && (
                 <DrawerFooter className='border-t-3'>
                   <Button
                     color='primary'
@@ -163,4 +203,8 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
       </Drawer>
     </>
   )
+}
+
+function isEmpty(obj: object) {
+  return Object.keys(obj).length === 0
 }
