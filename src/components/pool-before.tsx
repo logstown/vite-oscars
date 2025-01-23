@@ -1,15 +1,15 @@
 import { deletePool, removeUserFromPool } from '@/api'
 import { DbUser, Pool } from '@/config/models'
-import { Card, CardHeader, CardBody } from "@heroui/card"
+import { Card, CardHeader, CardBody } from '@heroui/card'
 import { useMutation } from '@tanstack/react-query'
 import { EllipsisVerticalIcon, LogOutIcon, ShareIcon } from 'lucide-react'
-import { Button } from "@heroui/button"
+import { Button } from '@heroui/button'
 import {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-} from "@heroui/dropdown"
+} from '@heroui/dropdown'
 import copy from 'clipboard-copy'
 import { PoolUser } from './pool-user'
 import { toast } from 'sonner'
@@ -56,7 +56,7 @@ export function PoolBefore({
         <div className='flex-col items-start'>
           <h3 className='text-2xl font-semibold'>{pool.name}</h3>
           <small className='text-default-500'>
-            {pool.users.length} members
+            {pool.users.length} member{pool.users.length === 1 ? '' : 's'}
           </small>
         </div>
         <Dropdown>

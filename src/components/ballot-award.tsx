@@ -1,13 +1,7 @@
 import { Award, DbUser, Nominee } from '@/config/models'
 import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
-import { Card, CardBody } from "@heroui/card"
-import {
-  Avatar,
-  AvatarGroup,
-  Radio,
-  RadioGroup,
-  Tooltip,
-} from "@heroui/react"
+import { Card, CardBody } from '@heroui/card'
+import { Avatar, AvatarGroup, Radio, RadioGroup, Tooltip } from '@heroui/react'
 import { TrophyIcon } from 'lucide-react'
 
 export function BallotAward({
@@ -32,14 +26,25 @@ export function BallotAward({
         <RadioGroup
           isDisabled={isSavePending || isAfterCeremony}
           color='primary'
+          classNames={{
+            label: 'order-first',
+            description: 'order-2',
+            wrapper: 'order-3',
+          }}
           label={award.award}
+          description={`${award.points} point${award.points === 1 ? '' : 's'}`}
           defaultValue={userPick?.id}
           onValueChange={nomineeId => setNewPick(nomineeId, award)}
         >
           {award.nominees.map((nominee: Nominee) => (
             <div key={nominee.id}>
-              <Radio description={nominee.nominee} value={nominee.id}>
-                {nominee.film}
+              <Radio
+                description={
+                  award.points === 3 ? nominee.film : nominee.nominee
+                }
+                value={nominee.id}
+              >
+                {award.points === 3 ? nominee.nominee : nominee.film}
               </Radio>
               {isAfterCeremony && (
                 <div

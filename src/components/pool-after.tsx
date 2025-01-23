@@ -1,8 +1,8 @@
 import { getUser } from '@/api'
 import { Pool, Award, DbUser, Nominee } from '@/config/models'
 import { AwardsContext } from '@/hooks/awards-context'
-import { Card, CardHeader, CardBody } from "@heroui/card"
-import { Progress } from "@heroui/react"
+import { Card, CardHeader, CardBody } from '@heroui/card'
+import { Progress } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { chain, maxBy, map, omit, minBy } from 'lodash'
@@ -58,7 +58,9 @@ export function PoolAfter({ pool }: { pool: Pool }) {
     <Card className='min-w-[350px]'>
       <CardHeader className='flex-col items-start'>
         <h3 className='text-2xl font-semibold'>{pool.name}</h3>
-        <small className='text-default-500'>{pool.users.length} members</small>
+        <small className='text-default-500'>
+          {pool.users.length} member{pool.users.length === 1 ? '' : 's'}
+        </small>
       </CardHeader>
       <CardBody>
         <ul className='flex flex-col'>
