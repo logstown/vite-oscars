@@ -1,8 +1,19 @@
+import { setWinnerFB } from '@/api'
+import { AuthContext } from '@/config/auth-provider'
 import { Award, DbUser, Nominee } from '@/config/models'
 import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
 import { Card, CardBody } from '@heroui/card'
-import { Avatar, AvatarGroup, Radio, RadioGroup, Tooltip } from '@heroui/react'
+import {
+  Avatar,
+  AvatarGroup,
+  Button,
+  Radio,
+  RadioGroup,
+  Tooltip,
+} from '@heroui/react'
+import { useMutation } from '@tanstack/react-query'
 import { TrophyIcon } from 'lucide-react'
+import { useContext } from 'react'
 
 export function BallotAward({
   award,
@@ -18,6 +29,12 @@ export function BallotAward({
   setNewPick: (nomineeId: string, award: Award) => void
 }) {
   const { isAfterCeremony } = useIsAfterCermony()
+  const { currentUser } = useContext(AuthContext)
+  const awardHasPerson = (award: Award) => award.points === 3
+
+  const { mutate: setWinner, isPending } = useMutation({
+    mutationFn: (nominee: Nominee) => setWinnerFB(award.id, nominee.id),
+  })
 
   return (
     <Card key={award.id} className='p-2'>
@@ -40,11 +57,11 @@ export function BallotAward({
             <div key={nominee.id}>
               <Radio
                 description={
-                  award.points === 3 ? nominee.film : nominee.nominee
+                  awardHasPerson(award) ? nominee.film : nominee.nominee
                 }
                 value={nominee.id}
               >
-                {award.points === 3 ? nominee.nominee : nominee.film}
+                {awardHasPerson(award) ? nominee.nominee : nominee.film}
               </Radio>
               {isAfterCeremony && (
                 <div
@@ -66,6 +83,17 @@ export function BallotAward({
                         </Tooltip>
                       ))}
                   </AvatarGroup>
+                  {!award.winner &&
+                    import.meta.env.VITE_ADMIN_ID === currentUser?.uid && (
+                      <Button
+                        isIconOnly
+                        size='sm'
+                        variant='ghost'
+                        onPress={() => setWinner(nominee)}
+                      >
+                        <TrophyIcon size={18} />
+                      </Button>
+                    )}
                 </div>
               )}
             </div>

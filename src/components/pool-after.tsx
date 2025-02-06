@@ -95,7 +95,7 @@ export function PoolAfter({ pool }: { pool: Pool }) {
 }
 
 function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
-  const latestAward = maxBy(awards, x => x.winnerStamp.toMillis())
+  const latestAward = maxBy(awards, x => x.winnerStamp?.toMillis())
 
   const users = chain(poolUsers)
     .map(({ picks, displayName, photoURL, uid }) => {

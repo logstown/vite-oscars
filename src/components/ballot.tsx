@@ -136,7 +136,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                 ) : (
                   <div>
                     {isAfterCeremony && selectedPoolId && pools && (
-                      <div className='text-center'>
+                      <div className='text-center mb-6'>
                         <Select
                           className='max-w-xs'
                           label='Selected Pool'

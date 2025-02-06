@@ -101,3 +101,13 @@ export const removeUserFromPool = async (
     users: arrayRemove(uid),
   })
 }
+
+export const setWinnerFB = async (
+  awardId: string,
+  nomineeId: string,
+): Promise<void> => {
+  return updateDoc(doc(db, 'awards', awardId), {
+    winner: nomineeId,
+    winnerStamp: serverTimestamp(),
+  })
+}
