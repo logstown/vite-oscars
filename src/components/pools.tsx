@@ -36,7 +36,7 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
 
   return (
     <>
-      <div className='flex  gap-8 items-start justify-center w-full'>
+      <div className='flex gap-8 items-start justify-center w-full'>
         {pools.map(pool =>
           isAfterCeremony ? (
             <PoolAfter pool={pool} key={pool.id} />

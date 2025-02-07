@@ -1,13 +1,15 @@
 import { getUser } from '@/api'
-import { Pool, Award, DbUser, Nominee } from '@/config/models'
+import { Pool, Award, DbUser, Nominee, Picks } from '@/config/models'
 import { AwardsContext } from '@/hooks/awards-context'
 import { Card, CardHeader, CardBody } from '@heroui/card'
-import { Progress } from '@heroui/react'
+import { Button, Progress } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
 import { chain, maxBy, map, omit, minBy } from 'lodash'
 import { useContext, useState, useEffect } from 'react'
 import { PoolUserDisplay } from './pool-user-display'
+import { useIsCeremonyOver } from '@/hooks/is-ceremony-over'
+import SuperlativesModal from './superlatives-modal'
 
 type UserRow = {
   photoURL: string | null
@@ -22,6 +24,7 @@ export function PoolAfter({ pool }: { pool: Pool }) {
   const awards = useContext(AwardsContext)
   const [userRows, setUserRows] = useState<UserRow[]>([])
   const [totalPoints, setTotalPoints] = useState(0)
+  const { isCeremonyOver } = useIsCeremonyOver()
 
   const {
     data: poolUsers,
@@ -61,6 +64,9 @@ export function PoolAfter({ pool }: { pool: Pool }) {
         <small className='text-default-500'>
           {pool.users.length} member{pool.users.length === 1 ? '' : 's'}
         </small>
+        {!isCeremonyOver && poolUsers && (
+          <SuperlativesModal poolUsers={poolUsers} awards={awards} />
+        )}
       </CardHeader>
       <CardBody>
         <ul className='flex flex-col'>
@@ -150,8 +156,8 @@ function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
 }
 
 function getPossiblePoints(
-  picks1: Record<string, Nominee>,
-  picks2: Record<string, Nominee>,
+  picks1: Picks,
+  picks2: Picks,
   awards: Award[],
 ): number {
   return chain(awards)
