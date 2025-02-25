@@ -2,11 +2,11 @@ import { GoogleIcon } from '@/components/icons'
 import { doSignInWithGoogle } from '@/config/auth'
 import { AuthContext } from '@/config/auth-provider'
 import DefaultLayout from '@/layouts/default'
-import { Button } from "@heroui/button"
-import { Card, CardBody, CardHeader } from "@heroui/card"
-import { Divider } from "@heroui/divider"
-import { Input } from "@heroui/input"
-import { Link } from "@heroui/link"
+import { Button } from '@heroui/button'
+import { Card, CardBody, CardHeader } from '@heroui/card'
+import { Divider } from '@heroui/divider'
+import { Input } from '@heroui/input'
+import { Link } from '@heroui/link'
 import { LockIcon, MailIcon } from 'lucide-react'
 import { useContext, useState } from 'react'
 import { Navigate, useSearchParams } from 'react-router-dom'
@@ -30,7 +30,7 @@ export default function LoginPage() {
   return (
     // <div className="flex justify-center p-20">
     // </div>
-    (<DefaultLayout>
+    <DefaultLayout>
       {currentUser &&
         (poolId ? (
           <Navigate to={`/join-pool/${poolId}`} replace={true} />
@@ -41,7 +41,7 @@ export default function LoginPage() {
         <Card className='w-full max-w-sm'>
           <CardHeader>Login</CardHeader>
           <CardBody className='flex flex-col gap-4'>
-            <Input
+            {/* <Input
               endContent={
                 <MailIcon className='text-2xl text-default-400 pointer-events-none flex-shrink-0' />
               }
@@ -66,7 +66,7 @@ export default function LoginPage() {
               <Divider className='my-4 w-20' />
               <div className='px-2'>OR</div>
               <Divider className='my-4 w-20' />
-            </div>
+            </div> */}
             <Button
               color='default'
               disabled={isSigningIn}
@@ -80,6 +80,6 @@ export default function LoginPage() {
           </CardBody>
         </Card>
       </div>
-    </DefaultLayout>)
-  );
+    </DefaultLayout>
+  )
 }

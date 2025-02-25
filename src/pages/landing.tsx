@@ -1,5 +1,5 @@
-import { Link } from "@heroui/link"
-import { button as buttonStyles } from "@heroui/theme"
+import { Link } from '@heroui/link'
+import { button as buttonStyles } from '@heroui/theme'
 
 import { title, subtitle } from '@/components/primitives'
 import { LogInIcon, UserPlusIcon } from 'lucide-react'
@@ -28,7 +28,7 @@ export default function LandingPage() {
           Login
           <LogInIcon size={18} />
         </Link>
-        <Link
+        {/* <Link
           className={buttonStyles({
             variant: 'bordered',
             radius: 'full',
@@ -38,7 +38,7 @@ export default function LandingPage() {
         >
           Sign Up
           <UserPlusIcon size={18} />
-        </Link>
+        </Link> */}
       </div>
 
       {/* <div className="mt-8">
