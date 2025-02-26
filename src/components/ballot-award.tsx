@@ -54,8 +54,8 @@ export function BallotAward({
           isDisabled={isSavePending || isAfterCeremony}
           color='primary'
           classNames={{
-            label: 'order-first',
-            description: 'order-2',
+            label: 'order-first text-2xl',
+            description: 'order-2 text-sm',
             wrapper: 'order-3',
           }}
           label={award.award}
