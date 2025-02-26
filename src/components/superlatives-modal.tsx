@@ -7,6 +7,9 @@ import {
   Button,
   useDisclosure,
   card,
+  PopoverTrigger,
+  Popover,
+  PopoverContent,
 } from '@heroui/react'
 import { Award, DbUser, Nominee, Picks } from '@/config/models'
 import {
@@ -57,7 +60,7 @@ export default function SuperlativesModal({
         description:
           'Correct predictions went against the grain of the rest of the pool',
         users: getDarkHorse(awards, poolUsers),
-        info: "For each award, one point was divided amongst the players that got it correct. So if four players got it, they'd each receive 0.25 points, but if only one player got it, she would receive the full point. Highest score at the end is the winner.",
+        info: "For each award, one point was divided among the players that got it correct. So if four players correctly predicted the same award, they'd each receive 0.25 points. But if only one player got it, she would receive the full point. Highest score at the end is the winner.",
       },
     ]
   }, [awards, poolUsers])
@@ -66,14 +69,18 @@ export default function SuperlativesModal({
     <>
       <Button
         className='w-full mt-6'
-        radius='none'
+        radius='full'
         color='primary'
         onPress={onOpen}
       >
         <StarIcon size={18} fill='currentColor' />
         Superlatives
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        scrollBehavior='outside'
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {onClose => (
             <>
@@ -87,15 +94,16 @@ export default function SuperlativesModal({
                       <h3 className='text-2xl font-semibold flex items-center gap-2'>
                         {superlative.name + ' Award'}
                         {superlative.info && (
-                          <Tooltip
-                            content={
-                              <div className='max-w-prose p-2'>
+                          <Popover color='foreground'>
+                            <PopoverTrigger>
+                              <InfoIcon className='cursor-pointer' size={18} />
+                            </PopoverTrigger>
+                            <PopoverContent>
+                              <div className='max-w-sm p-2'>
                                 <p>{superlative.info}</p>
                               </div>
-                            }
-                          >
-                            <InfoIcon size={18} />
-                          </Tooltip>
+                            </PopoverContent>
+                          </Popover>
                         )}
                       </h3>
                       <small className='text-default-500'>
@@ -127,7 +135,7 @@ export default function SuperlativesModal({
                 ))}
               </ModalBody>
               <ModalFooter>
-                <Button color='secondary' onPress={onClose}>
+                <Button color='primary' onPress={onClose}>
                   Close
                 </Button>
               </ModalFooter>

@@ -64,7 +64,7 @@ export function PoolAfter({ pool }: { pool: Pool }) {
         <small className='text-default-500'>
           {pool.users.length} member{pool.users.length === 1 ? '' : 's'}
         </small>
-        {!isCeremonyOver && poolUsers && (
+        {isCeremonyOver && poolUsers && (
           <SuperlativesModal poolUsers={poolUsers} awards={awards} />
         )}
       </CardHeader>

@@ -8,6 +8,7 @@ import {
 } from '@heroui/drawer'
 import {
   Input,
+  Progress,
   Select,
   SelectItem,
   Spinner,
@@ -75,18 +76,20 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   const awardsToDisplay = useMemo(() => {
     if (!awards) return []
 
-    return awards.filter(award => {
-      if (searchTerm.length < 3) return true
-
-      return (
+    if (searchTerm.length > 2) {
+      return awards.filter(award => {
         award.award.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        award.nominees.some(
-          nominee =>
-            nominee.nominee.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            nominee.film.toLowerCase().includes(searchTerm.toLowerCase()),
-        )
-      )
-    })
+          award.nominees.some(
+            nominee =>
+              nominee.nominee
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              nominee.film.toLowerCase().includes(searchTerm.toLowerCase()),
+          )
+      })
+    } else {
+      return awards
+    }
   }, [awards, searchTerm])
 
   const setNewPick = (nomineeId: string, award: Award) => {
@@ -100,6 +103,11 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
     setPicks({})
     setSearchTerm('')
     onClose()
+  }
+
+  const getPicksPercentage = () => {
+    const thesePicks = isEmpty(picks) ? currentUser!.picks : picks
+    return Math.floor((Object.keys(thesePicks).length / awards.length) * 100)
   }
 
   const loading = (
@@ -179,8 +187,18 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                   </div>
                 )}
               </DrawerBody>
+              <div className='sticky flex flex-row bottom-0 px-6 py-4 border-t-2 border-default-100'>
+                <Progress
+                  aria-label='Progress'
+                  className='max-w-md'
+                  color={getPicksPercentage() < 100 ? 'warning' : 'success'}
+                  showValueLabel={true}
+                  size='sm'
+                  value={getPicksPercentage()}
+                />
+              </div>
               {!isEmpty(picks) && (
-                <DrawerFooter className='border-t-3'>
+                <DrawerFooter>
                   <Button
                     color='primary'
                     isLoading={isSavePending}

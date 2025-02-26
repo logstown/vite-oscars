@@ -111,3 +111,10 @@ export const setWinnerFB = async (
     winnerStamp: serverTimestamp(),
   })
 }
+
+export const cancelWinnerFB = async (awardId: string): Promise<void> => {
+  return updateDoc(doc(db, 'awards', awardId), {
+    winner: '',
+    winnerStamp: null,
+  })
+}

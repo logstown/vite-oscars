@@ -1,4 +1,4 @@
-import { setWinnerFB } from '@/api'
+import { cancelWinnerFB, setWinnerFB } from '@/api'
 import { AuthContext } from '@/config/auth-provider'
 import { Award, DbUser, Nominee } from '@/config/models'
 import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
@@ -30,11 +30,21 @@ export function BallotAward({
 }) {
   const { isAfterCeremony } = useIsAfterCermony()
   const { currentUser } = useContext(AuthContext)
+  const userIsAdmin = import.meta.env.VITE_ADMIN_ID === currentUser?.uid
+
   const awardHasPerson = (award: Award) => award.points === 3
 
   const { mutate: setWinner, isPending } = useMutation({
     mutationFn: (nominee: Nominee) => setWinnerFB(award.id, nominee.id),
   })
+
+  const cancelWinner = () => {
+    if (!userIsAdmin) return
+
+    if (confirm('Cancel Winner?')) {
+      cancelWinnerFB(award.id)
+    }
+  }
 
   return (
     <Card key={award.id} className='p-2'>
@@ -68,7 +78,11 @@ export function BallotAward({
                   className={`flex items-center gap-4 ${award.winner === nominee.id ? 'pl-8' : 'pl-9'}`}
                 >
                   {nominee.id === award.winner && (
-                    <TrophyIcon className='text-yellow-500' size={34} />
+                    <TrophyIcon
+                      className='text-yellow-500'
+                      onClick={cancelWinner}
+                      size={28}
+                    />
                   )}
                   <AvatarGroup max={20}>
                     {poolUsers
@@ -83,17 +97,16 @@ export function BallotAward({
                         </Tooltip>
                       ))}
                   </AvatarGroup>
-                  {!award.winner &&
-                    import.meta.env.VITE_ADMIN_ID === currentUser?.uid && (
-                      <Button
-                        isIconOnly
-                        size='sm'
-                        variant='ghost'
-                        onPress={() => setWinner(nominee)}
-                      >
-                        <TrophyIcon size={18} />
-                      </Button>
-                    )}
+                  {!award.winner && userIsAdmin && (
+                    <Button
+                      isIconOnly
+                      size='sm'
+                      variant='ghost'
+                      onPress={() => setWinner(nominee)}
+                    >
+                      <TrophyIcon size={18} />
+                    </Button>
+                  )}
                 </div>
               )}
             </div>
