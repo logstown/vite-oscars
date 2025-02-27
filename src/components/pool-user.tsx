@@ -1,10 +1,12 @@
 import { getUser, removeUserFromPool } from '@/api'
 import { Pool } from '@/config/models'
-import { Button } from "@heroui/button"
-import { Tooltip } from "@heroui/react"
+import { Button } from '@heroui/button'
+import { Tooltip } from '@heroui/react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CheckIcon, CircleAlertIcon, CrownIcon, XIcon } from 'lucide-react'
 import { PoolUserDisplay } from './pool-user-display'
+import { useCurrentTime } from '@/hooks/current-time'
+import { ceremonyStart } from '@/config/constants'
 
 export function PoolUser({
   uid,
@@ -17,6 +19,7 @@ export function PoolUser({
   isCurrentUserCreator: boolean
   awardsLength: number
 }) {
+  const { currentTime } = useCurrentTime()
   const {
     data: user,
     isPending: isPoolUserPending,
@@ -45,17 +48,23 @@ export function PoolUser({
   }
 
   const numPicks = Object.keys(user.picks).length
+  const isAlmostCeremony =
+    currentTime.getTime() > ceremonyStart.getTime() - 1000 * 60 * 60 * 12
 
   return (
     <div className='flex group items-center gap-6'>
-      {numPicks === awardsLength ? (
-        <Tooltip content='All done!'>
-          <CheckIcon className='text-success-500' />
-        </Tooltip>
-      ) : (
-        <Tooltip content={`${numPicks} / ${awardsLength} Chosen`}>
-          <CircleAlertIcon className='text-warning-500' />
-        </Tooltip>
+      {isAlmostCeremony && (
+        <>
+          {numPicks === awardsLength ? (
+            <Tooltip content='All done!'>
+              <CheckIcon className='text-success-500' />
+            </Tooltip>
+          ) : (
+            <Tooltip content={`${numPicks} / ${awardsLength} Chosen`}>
+              <CircleAlertIcon className='text-warning-500' />
+            </Tooltip>
+          )}
+        </>
       )}
       <PoolUserDisplay
         photoURL={user.photoURL}
