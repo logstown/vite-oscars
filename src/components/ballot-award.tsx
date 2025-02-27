@@ -55,8 +55,9 @@ export function BallotAward({
           color='primary'
           classNames={{
             label: 'order-first text-2xl',
-            description: 'order-2 text-sm',
+            description: 'order-2 text-sm pb-2',
             wrapper: 'order-3',
+            base: 'gap-1',
           }}
           label={award.award}
           description={`${award.points} point${award.points === 1 ? '' : 's'}`}

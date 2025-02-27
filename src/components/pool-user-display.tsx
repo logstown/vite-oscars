@@ -1,4 +1,4 @@
-import { User } from "@heroui/user"
+import { User } from '@heroui/user'
 
 export function PoolUserDisplay({
   photoURL,
@@ -11,6 +11,7 @@ export function PoolUserDisplay({
     <User
       classNames={{
         name: 'w-32 truncate',
+        wrapper: 'pl-1',
       }}
       avatarProps={{
         showFallback: true,
