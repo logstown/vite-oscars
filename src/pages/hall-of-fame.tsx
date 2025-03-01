@@ -4,6 +4,7 @@ import { Avatar, Tooltip } from '@heroui/react'
 import { CalendarIcon, TrophyIcon } from 'lucide-react'
 import { Button } from '@heroui/button'
 import { find } from 'lodash'
+import DefaultLayout from '@/layouts/default'
 const realData = [
   {
     displayName: 'Isabelle Jenkins',
@@ -69,100 +70,107 @@ export default function HallOfFamePage() {
   )
 
   return (
-    <div className='w-full max-w-2xl mx-auto p-4 sm:p-6'>
-      <div className='flex flex-col sm:flex-row justify-between items-center gap-4 mb-8'>
-        <h1 className='text-3xl sm:text-4xl font-bold'>Hall of Fame</h1>
-        <div className='flex gap-2'>
-          <Button
-            size='sm'
-            color={view === 'byYear' ? 'primary' : 'default'}
-            onPress={() => setView('byYear')}
-          >
-            <CalendarIcon size={16} className='hidden sm:block' />
-            By Year
-          </Button>
-          <Button
-            size='sm'
-            color={view === 'byWins' ? 'primary' : 'default'}
-            onPress={() => setView('byWins')}
-          >
-            <TrophyIcon size={16} className='hidden sm:block' />
-            By Wins
-          </Button>
+    <DefaultLayout>
+      <div className='w-full max-w-2xl mx-auto p-4 sm:p-6'>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-4 mb-8'>
+          <h1 className='text-3xl sm:text-4xl font-bold'>Hall of Fame</h1>
+          <div className='flex gap-2'>
+            <Button
+              size='sm'
+              color={view === 'byYear' ? 'primary' : 'default'}
+              onPress={() => setView('byYear')}
+            >
+              <CalendarIcon size={16} className='hidden sm:block' />
+              By Year
+            </Button>
+            <Button
+              size='sm'
+              color={view === 'byWins' ? 'primary' : 'default'}
+              onPress={() => setView('byWins')}
+            >
+              <TrophyIcon size={16} className='hidden sm:block' />
+              By Wins
+            </Button>
+          </div>
         </div>
-      </div>
 
-      {view === 'byYear' ? (
-        <div className='space-y-4'>
-          {winnersByYear.map(winner => (
-            <Card key={winner.year} className='w-full'>
-              <CardBody className='p-4'>
-                <div
-                  className={`flex gap-4 ${winner.users.length > 1 ? 'items-start' : 'items-center'}`}
-                >
+        {view === 'byYear' ? (
+          <div className='space-y-4'>
+            {winnersByYear.map(winner => (
+              <Card key={winner.year} className='w-full'>
+                <CardBody className='p-4'>
                   <div
-                    className={`w-20 text-xl sm:text-2xl font-bold text-center ${winner.users.length > 1 ? 'pt-2' : ''}`}
+                    className={`flex gap-4 ${winner.users.length > 1 ? 'items-start' : 'items-center'}`}
                   >
-                    {winner.year}
-                  </div>
-                  <div className='flex flex-col gap-2 w-full'>
-                    {winner.users.map(user => (
-                      <div className='flex justify-between'>
-                        <div className='flex items-center gap-3'>
-                          <Tooltip content={user.displayName}>
-                            <Avatar
-                              name={user.displayName}
-                              src={user.photoURL}
-                              className='w-10 h-10 sm:w-12 sm:h-12'
-                            />
-                          </Tooltip>
-                          <div className='font-medium'>{user.displayName}</div>
+                    <div
+                      className={`w-20 text-xl sm:text-2xl font-bold text-center ${winner.users.length > 1 ? 'pt-2' : ''}`}
+                    >
+                      {winner.year}
+                    </div>
+                    <div className='flex flex-col gap-2 w-full'>
+                      {winner.users.map(user => (
+                        <div
+                          key={user.displayName}
+                          className='flex justify-between'
+                        >
+                          <div className='flex items-center gap-3'>
+                            <Tooltip content={user.displayName}>
+                              <Avatar
+                                name={user.displayName}
+                                src={user.photoURL}
+                                className='w-10 h-10 sm:w-12 sm:h-12'
+                              />
+                            </Tooltip>
+                            <div className='font-medium'>
+                              {user.displayName}
+                            </div>
+                          </div>
+                          <div className='hidden sm:flex items-center gap-2 text-default-500'>
+                            <TrophyIcon size={16} />
+                            <span>{user.winningYears.length}</span>
+                          </div>
                         </div>
-                        <div className='hidden sm:flex items-center gap-2 text-default-500'>
-                          <TrophyIcon size={16} />
-                          <span>{user.winningYears.length}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className='space-y-4'>
-          {winnersByTotal.map(winner => (
-            <Card key={winner.displayName} className='w-full'>
-              <CardBody className='p-4'>
-                <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
-                  <div className='flex items-center gap-4'>
-                    <Tooltip content={winner.displayName}>
-                      <Avatar
-                        src={winner.photoURL}
-                        name={winner.displayName}
-                        className='w-10 h-10 sm:w-12 sm:h-12'
-                      />
-                    </Tooltip>
-                    <div>
-                      <div className='font-medium'>{winner.displayName}</div>
-                      <div className='text-sm text-default-500'>
-                        Won in: {winner.winningYears.join(', ')}
-                      </div>
+                      ))}
                     </div>
                   </div>
-                  <div className='flex items-center gap-2'>
-                    <TrophyIcon className='text-yellow-500' size={20} />
-                    <span className='text-xl sm:text-2xl font-bold'>
-                      {winner.winningYears.length}
-                    </span>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        ) : (
+          <div className='space-y-4'>
+            {winnersByTotal.map(winner => (
+              <Card key={winner.displayName} className='w-full'>
+                <CardBody className='p-4'>
+                  <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
+                    <div className='flex items-center gap-4'>
+                      <Tooltip content={winner.displayName}>
+                        <Avatar
+                          src={winner.photoURL}
+                          name={winner.displayName}
+                          className='w-10 h-10 sm:w-12 sm:h-12'
+                        />
+                      </Tooltip>
+                      <div>
+                        <div className='font-medium'>{winner.displayName}</div>
+                        <div className='text-sm text-default-500'>
+                          {winner.winningYears.join(', ')}
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                      <TrophyIcon className='text-yellow-500' size={20} />
+                      <span className='text-xl sm:text-2xl font-bold'>
+                        {winner.winningYears.length}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
-      )}
-    </div>
+                </CardBody>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </DefaultLayout>
   )
 }

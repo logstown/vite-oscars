@@ -10,8 +10,7 @@ import UserMenu from './user-menu'
 import { useContext } from 'react'
 import Ballot from './ballot'
 import { ThemeSwitch } from './theme-switch'
-import { siteConfig } from '@/config/site'
-import clsx from 'clsx'
+import { TrophyIcon } from 'lucide-react'
 
 export const Navbar = () => {
   const { currentUser } = useContext(AuthContext)
@@ -50,15 +49,22 @@ export const Navbar = () => {
             <p className='font-bold text-inherit'>Oscar Showdown</p>
           </Link>
         </NavbarBrand>
-        <div className='hidden lg:flex gap-4 justify-start ml-2'>
-          {siteConfig.navItems.map(item => (
+        {/* <div className="hidden lg:flex gap-4 justify-start ml-2">
+          {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
-              <Link color='foreground' href={item.href}>
+              <Link
+                className={clsx(
+                  linkStyles({ color: "foreground" }),
+                  "data-[active=true]:text-primary data-[active=true]:font-medium"
+                )}
+                color="foreground"
+                href={item.href}
+              >
                 {item.label}
               </Link>
             </NavbarItem>
           ))}
-        </div>
+        </div> */}
       </NavbarContent>
       <NavbarContent justify='start' className='sm:hidden'>
         <NavbarBrand className='gap-3 max-w-fit'>
@@ -72,13 +78,10 @@ export const Navbar = () => {
         </NavbarBrand>
       </NavbarContent>
 
-      {/* <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal href={siteConfig.links.twitter} title="Twitter">
-            <TwitterIcon className="text-default-500" />
+      {/* <NavbarContent className='hidden sm:flex' justify='end'>
+        <NavbarItem className='hidden sm:flex gap-2'>
+          <Link href='/hall-of-fame' title='Hall of Fame'>
+            Hall of Fame
           </Link>
           <Link isExternal href={siteConfig.links.discord} title="Discord">
             <DiscordIcon className="text-default-500" />
@@ -135,6 +138,12 @@ export const Navbar = () => {
       </NavbarMenu> */}
       {currentUser && (
         <NavbarContent as='div' justify='end'>
+          {/* <NavbarItem> */}
+          <Link href='/hall-of-fame' title='Hall of Fame'>
+            <span className='hidden sm:flex'>Hall of Fame</span>
+            <TrophyIcon size={20} className='sm:hidden' />
+          </Link>
+          {/* </NavbarItem> */}
           <ThemeSwitch />
           <UserMenu currentUser={currentUser} />
         </NavbarContent>
