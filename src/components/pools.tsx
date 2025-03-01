@@ -39,7 +39,7 @@ export function Pools({ currentUser }: { currentUser: DbUser }) {
       <div className='flex gap-8 items-start justify-center w-full'>
         {pools.map(pool =>
           isAfterCeremony ? (
-            <PoolAfter pool={pool} key={pool.id} />
+            <PoolAfter currentUser={currentUser} pool={pool} key={pool.id} />
           ) : (
             <PoolBefore currentUser={currentUser} pool={pool} key={pool.id} />
           ),

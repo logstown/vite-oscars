@@ -10,7 +10,7 @@ import { useContext, useState, useEffect } from 'react'
 import { PoolUserDisplay } from './pool-user-display'
 import { useIsCeremonyOver } from '@/hooks/is-ceremony-over'
 import SuperlativesModal from './superlatives-modal'
-
+import { GrayExplanation } from './gray-explanation'
 type UserRow = {
   photoURL: string | null
   displayName: string | null
@@ -20,7 +20,13 @@ type UserRow = {
   outOfIt: boolean
 }
 
-export function PoolAfter({ pool }: { pool: Pool }) {
+export function PoolAfter({
+  currentUser,
+  pool,
+}: {
+  currentUser: DbUser
+  pool: Pool
+}) {
   const awards = useContext(AwardsContext)
   const [userRows, setUserRows] = useState<UserRow[]>([])
   const [totalPoints, setTotalPoints] = useState(0)
@@ -92,6 +98,11 @@ export function PoolAfter({ pool }: { pool: Pool }) {
                 color={userRow.progressColor}
                 maxValue={totalPoints}
               />
+              {userRow.outOfIt && userRow.uid === currentUser.uid && (
+                <div className='mt-4 flex justify-end'>
+                  <GrayExplanation />
+                </div>
+              )}
             </motion.li>
           ))}
         </ul>
