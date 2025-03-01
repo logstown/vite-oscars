@@ -65,7 +65,7 @@ export default function HallOfFamePage() {
       })
       return years
     }, [] as YearData[])
-    .sort((a, b) => a.year - b.year)
+    .sort((a, b) => b.year - a.year)
 
   const winnersByTotal = realData.sort(
     (a, b) => b.winningYears.length - a.winningYears.length,
