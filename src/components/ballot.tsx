@@ -77,16 +77,17 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
     if (!awards) return []
 
     if (searchTerm.length > 2) {
-      return awards.filter(award => {
-        award.award.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      return awards.filter(
+        award =>
+          award.award.toLowerCase().includes(searchTerm.toLowerCase()) ||
           award.nominees.some(
             nominee =>
               nominee.nominee
                 .toLowerCase()
                 .includes(searchTerm.toLowerCase()) ||
               nominee.film.toLowerCase().includes(searchTerm.toLowerCase()),
-          )
-      })
+          ),
+      )
     } else {
       return awards
     }
