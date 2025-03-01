@@ -114,18 +114,16 @@ export default function HallOfFamePage() {
                           className='flex justify-between'
                         >
                           <div className='flex items-center gap-3'>
-                            <Tooltip content={user.displayName}>
-                              <Avatar
-                                name={user.displayName}
-                                src={user.photoURL}
-                                className='w-10 h-10 sm:w-12 sm:h-12'
-                              />
-                            </Tooltip>
+                            <Avatar
+                              name={user.displayName}
+                              src={user.photoURL}
+                              className='w-10 h-10 sm:w-12 sm:h-12'
+                            />
                             <div className='font-medium'>
                               {user.displayName}
                             </div>
                           </div>
-                          <div className='hidden sm:flex items-center gap-2 text-default-500'>
+                          <div className='hidden sm:flex items-center gap-2 text-default-500 w-[36px]'>
                             <TrophyIcon size={16} />
                             <span>{user.winningYears.length}</span>
                           </div>
@@ -144,13 +142,11 @@ export default function HallOfFamePage() {
                 <CardBody className='p-4'>
                   <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4'>
                     <div className='flex items-center gap-4'>
-                      <Tooltip content={winner.displayName}>
-                        <Avatar
-                          src={winner.photoURL}
-                          name={winner.displayName}
-                          className='w-10 h-10 sm:w-12 sm:h-12'
-                        />
-                      </Tooltip>
+                      <Avatar
+                        src={winner.photoURL}
+                        name={winner.displayName}
+                        className='w-10 h-10 sm:w-12 sm:h-12'
+                      />
                       <div>
                         <div className='font-medium'>{winner.displayName}</div>
                         <div className='text-sm text-default-500'>
@@ -158,7 +154,7 @@ export default function HallOfFamePage() {
                         </div>
                       </div>
                     </div>
-                    <div className='flex items-center gap-2'>
+                    <div className='flex items-center gap-2 w-[45px]'>
                       <TrophyIcon className='text-yellow-500' size={20} />
                       <span className='text-xl sm:text-2xl font-bold'>
                         {winner.winningYears.length}
