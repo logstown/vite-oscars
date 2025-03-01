@@ -73,7 +73,7 @@ export default function HallOfFamePage() {
 
   return (
     <DefaultLayout>
-      <div className='w-full max-w-2xl mx-auto p-4 sm:p-6'>
+      <div className='w-full max-w-2xl mx-auto px-4 pb-4 sm:px-6 sm:pb-6'>
         <div className='flex flex-col sm:flex-row justify-between items-center gap-4 mb-8'>
           <h1 className='text-3xl sm:text-4xl font-bold'>Hall of Fame</h1>
           <div className='flex gap-2'>
