@@ -78,6 +78,16 @@ export function BallotAward({
                 <div
                   className={`flex items-center gap-4 ${award.winner === nominee.id ? 'pl-8' : 'pl-9'}`}
                 >
+                  {!award.winner && userIsAdmin && (
+                    <Button
+                      isIconOnly
+                      size='sm'
+                      variant='ghost'
+                      onPress={() => setWinner(nominee)}
+                    >
+                      <TrophyIcon size={18} />
+                    </Button>
+                  )}
                   {nominee.id === award.winner && (
                     <TrophyIcon
                       className='text-yellow-500'
@@ -98,16 +108,6 @@ export function BallotAward({
                         </Tooltip>
                       ))}
                   </AvatarGroup>
-                  {!award.winner && userIsAdmin && (
-                    <Button
-                      isIconOnly
-                      size='sm'
-                      variant='ghost'
-                      onPress={() => setWinner(nominee)}
-                    >
-                      <TrophyIcon size={18} />
-                    </Button>
-                  )}
                 </div>
               )}
             </div>

@@ -183,16 +183,18 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                   </div>
                 )}
               </DrawerBody>
-              <div className='sticky flex flex-row bottom-0 px-6 py-4 border-t-2 border-default-100'>
-                <Progress
-                  aria-label='Progress'
-                  className='max-w-md'
-                  color={getPicksPercentage() < 100 ? 'warning' : 'success'}
-                  showValueLabel={true}
-                  size='sm'
-                  value={getPicksPercentage()}
-                />
-              </div>
+              {!isAfterCeremony && (
+                <div className='sticky flex flex-row bottom-0 px-6 py-4 border-t-2 border-default-100'>
+                  <Progress
+                    aria-label='Progress'
+                    className='max-w-md'
+                    color={getPicksPercentage() < 100 ? 'warning' : 'success'}
+                    showValueLabel={true}
+                    size='sm'
+                    value={getPicksPercentage()}
+                  />
+                </div>
+              )}
               {!isEmpty(picks) && (
                 <DrawerFooter>
                   <Button
