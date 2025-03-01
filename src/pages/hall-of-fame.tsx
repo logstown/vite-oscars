@@ -8,7 +8,8 @@ import DefaultLayout from '@/layouts/default'
 const realData = [
   {
     displayName: 'Isabelle Jenkins',
-    photoURL: '',
+    photoURL:
+      'https://lh6.googleusercontent.com/-Bb27zQwo6zw/AAAAAAAAAAI/AAAAAAAAACc/AMZuuclGpSnsaAZeypIa7ZZDQgeAQL19-A/s96-c/photo.jpg',
     winningYears: [2016, 2017, 2021, 2022],
   },
   {
@@ -31,7 +32,7 @@ const realData = [
   {
     displayName: 'Maggie Radl',
     photoURL:
-      'https://lh3.googleusercontent.com/a/ACg8ocLMbEg9C0yPLV2N_dJ0ZCetCX0LgQUBukqmsu85Fk36=s96-c',
+      'https://lh6.googleusercontent.com/-PNHi4LyK5Ts/AAAAAAAAAAI/AAAAAAAAAAA/ACevoQOQi7yXILcDeoHTVoeqIxl9URKh0g/mo/photo.jpg',
     winningYears: [2019],
   },
   {
