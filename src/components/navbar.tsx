@@ -1,15 +1,17 @@
-import { Link } from "@heroui/link"
+import { Link } from '@heroui/link'
 import {
   Navbar as NextUINavbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-} from "@heroui/navbar"
+} from '@heroui/navbar'
 import { AuthContext } from '@/config/auth-provider'
 import UserMenu from './user-menu'
 import { useContext } from 'react'
 import Ballot from './ballot'
 import { ThemeSwitch } from './theme-switch'
+import { siteConfig } from '@/config/site'
+import clsx from 'clsx'
 
 export const Navbar = () => {
   const { currentUser } = useContext(AuthContext)
@@ -48,22 +50,15 @@ export const Navbar = () => {
             <p className='font-bold text-inherit'>Oscar Showdown</p>
           </Link>
         </NavbarBrand>
-        {/* <div className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
+        <div className='hidden lg:flex gap-4 justify-start ml-2'>
+          {siteConfig.navItems.map(item => (
             <NavbarItem key={item.href}>
-              <Link
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium"
-                )}
-                color="foreground"
-                href={item.href}
-              >
+              <Link color='foreground' href={item.href}>
                 {item.label}
               </Link>
             </NavbarItem>
           ))}
-        </div> */}
+        </div>
       </NavbarContent>
       <NavbarContent justify='start' className='sm:hidden'>
         <NavbarBrand className='gap-3 max-w-fit'>
