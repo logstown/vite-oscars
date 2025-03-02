@@ -139,22 +139,25 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
                   loading
                 ) : (
                   <div>
-                    {isAfterCeremony && selectedPoolId && pools && (
-                      <div className='text-center mb-6'>
-                        <Select
-                          className='max-w-xs'
-                          label='Selected Pool'
-                          placeholder='Select a pool'
-                          selectedKeys={[selectedPoolId]}
-                          variant='bordered'
-                          onChange={e => setSelectedPoolId(e.target.value)}
-                        >
-                          {pools.map(pool => (
-                            <SelectItem key={pool.id}>{pool.name}</SelectItem>
-                          ))}
-                        </Select>
-                      </div>
-                    )}
+                    {isAfterCeremony &&
+                      selectedPoolId &&
+                      pools &&
+                      pools.length > 1 && (
+                        <div className='text-center mb-6'>
+                          <Select
+                            className='max-w-xs'
+                            label='Selected Pool'
+                            placeholder='Select a pool'
+                            selectedKeys={[selectedPoolId]}
+                            variant='bordered'
+                            onChange={e => setSelectedPoolId(e.target.value)}
+                          >
+                            {pools.map(pool => (
+                              <SelectItem key={pool.id}>{pool.name}</SelectItem>
+                            ))}
+                          </Select>
+                        </div>
+                      )}
                     <div className='text-center'>
                       <Input
                         type='search'
