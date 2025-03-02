@@ -1,16 +1,18 @@
 import { getUser } from '@/api'
-import { Pool, Award, DbUser, Nominee, Picks } from '@/config/models'
+import { Pool, Award, DbUser, Picks } from '@/config/models'
 import { AwardsContext } from '@/hooks/awards-context'
 import { Card, CardHeader, CardBody } from '@heroui/card'
-import { Button, Progress } from '@heroui/react'
+import { Progress } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { chain, maxBy, map, omit, minBy } from 'lodash'
+import { chain, maxBy, map, omit, minBy, find } from 'lodash'
 import { useContext, useState, useEffect } from 'react'
 import { PoolUserDisplay } from './pool-user-display'
 import { useIsCeremonyOver } from '@/hooks/is-ceremony-over'
 import SuperlativesModal from './superlatives-modal'
 import { GrayExplanation } from './gray-explanation'
+import { toast } from 'sonner'
+import { TrophyIcon } from 'lucide-react'
 type UserRow = {
   photoURL: string | null
   displayName: string | null
@@ -113,6 +115,19 @@ export function PoolAfter({
 
 function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
   const latestAward = maxBy(awards, x => x.winnerStamp?.toMillis())
+
+  if (latestAward?.winner) {
+    const winnerObj = find(latestAward.nominees, { id: latestAward.winner })!
+    const winnerStr = winnerObj.nominee
+      ? `${winnerObj.nominee} has won for ${winnerObj.film}!`
+      : `${winnerObj.film} has won!`
+
+    toast(winnerStr, {
+      description: latestAward.award,
+      duration: 10000,
+      icon: <TrophyIcon size={20} />,
+    })
+  }
 
   const users = chain(poolUsers)
     .map(({ picks, displayName, photoURL, uid }) => {
