@@ -37,7 +37,7 @@ export const Navbar = () => {
   // );
 
   return (
-    <NextUINavbar maxWidth='xl' position='sticky'>
+    <NextUINavbar isBordered maxWidth='xl' position='sticky'>
       <NavbarContent justify='start'>
         {currentUser && <Ballot currentUser={currentUser} />}
         <NavbarBrand className='gap-3 max-w-fit hidden sm:block pl-4'>
