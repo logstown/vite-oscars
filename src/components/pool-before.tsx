@@ -85,7 +85,7 @@ export function PoolBefore({
           </DropdownMenu>
         </Dropdown>
       </CardHeader>
-      <CardBody className='max-h-[650px]'>
+      <CardBody className='max-h-[533px]'>
         <ul className='flex flex-col gap-4'>
           {pool.users.map(uid => (
             <motion.li

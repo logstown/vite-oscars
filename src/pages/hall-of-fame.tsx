@@ -37,7 +37,8 @@ const realData = [
   },
   {
     displayName: 'Amanda Forry',
-    photoURL: '',
+    photoURL:
+      'https://lh5.googleusercontent.com/-pp0pqV7bKZU/AAAAAAAAAAI/AAAAAAAAA5Y/4Nwn--rSJDE/photo.jpg',
     winningYears: [2020, 2021, 2023],
   },
 ]
