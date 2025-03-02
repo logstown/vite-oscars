@@ -13,6 +13,8 @@ import SuperlativesModal from './superlatives-modal'
 import { GrayExplanation } from './gray-explanation'
 import { toast } from 'sonner'
 import { TrophyIcon } from 'lucide-react'
+import ConfettiGenerator from 'confetti-js'
+
 type UserRow = {
   photoURL: string | null
   displayName: string | null
@@ -72,6 +74,9 @@ export function PoolAfter({
           duration: 15000,
           icon: <TrophyIcon className='text-yellow-500' size={20} />,
         })
+
+        const confetti = new ConfettiGenerator({ target: 'my-canvas' })
+        confetti.render()
       }
     }
   }, [awards, poolUsers, isCeremonyOver])

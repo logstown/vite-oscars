@@ -6,12 +6,15 @@ import JoinPoolPage from './pages/join-pool'
 import HallOfFamePage from './pages/hall-of-fame'
 function App() {
   return (
-    <Routes>
-      <Route element={<IndexPage />} path='/' />
-      <Route element={<LoginPage />} path='/login' />
-      <Route element={<JoinPoolPage />} path='/join-pool/:poolId' />
-      <Route element={<HallOfFamePage />} path='/hall-of-fame' />
-    </Routes>
+    <>
+      <canvas className='absolute' id='my-canvas'></canvas>
+      <Routes>
+        <Route element={<IndexPage />} path='/' />
+        <Route element={<LoginPage />} path='/login' />
+        <Route element={<JoinPoolPage />} path='/join-pool/:poolId' />
+        <Route element={<HallOfFamePage />} path='/hall-of-fame' />
+      </Routes>
+    </>
   )
 }
 
