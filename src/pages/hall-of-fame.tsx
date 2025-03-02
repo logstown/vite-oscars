@@ -32,7 +32,7 @@ const realData = [
   {
     displayName: 'Maggie Radl',
     photoURL:
-      'https://lh6.googleusercontent.com/-PNHi4LyK5Ts/AAAAAAAAAAI/AAAAAAAAAAA/ACevoQOQi7yXILcDeoHTVoeqIxl9URKh0g/mo/photo.jpg',
+      'https://lh3.googleusercontent.com/a/ACg8ocLMbEg9C0yPLV2N_dJ0ZCetCX0LgQUBukqmsu85Fk36=s96-c',
     winningYears: [2019],
   },
   {
