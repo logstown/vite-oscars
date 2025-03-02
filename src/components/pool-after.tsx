@@ -63,10 +63,21 @@ export function PoolAfter({
 
     const userRows = getUpdatedUsers(poolUsers, awards)
     setUserRows(userRows)
-  }, [awards, poolUsers])
+
+    if (isCeremonyOver) {
+      const winner = maxBy(userRows, 'points')
+      if (winner) {
+        toast.success(`Congratulations ${winner.displayName}!`, {
+          position: 'top-center',
+          duration: 15000,
+          icon: <TrophyIcon className='text-yellow-500' size={20} />,
+        })
+      }
+    }
+  }, [awards, poolUsers, isCeremonyOver])
 
   return (
-    <Card className='min-w-[350px]'>
+    <Card className='min-w-[350px] p-4'>
       <CardHeader className='flex-col items-start'>
         <h3 className='text-2xl font-semibold'>{pool.name}</h3>
         <small className='text-default-500'>
@@ -77,19 +88,24 @@ export function PoolAfter({
         )}
       </CardHeader>
       <CardBody>
-        <ul className='flex flex-col'>
+        <ul className='flex flex-col gap-4'>
           {userRows.map(userRow => (
             <motion.li
               key={userRow.uid}
-              className={`p-4 ${userRow.outOfIt ? 'bg-default-200' : ''}`}
+              className={`${userRow.outOfIt ? 'bg-default-200' : ''}`}
               layout
               transition={{ type: 'spring', mass: 0.5, stiffness: 50 }}
             >
               <div className='flex justify-between items-center'>
-                <PoolUserDisplay
-                  displayName={userRow.displayName}
-                  photoURL={userRow.photoURL}
-                />
+                <div className='flex items-center'>
+                  <PoolUserDisplay
+                    displayName={userRow.displayName}
+                    photoURL={userRow.photoURL}
+                  />
+                  {isCeremonyOver && !userRow.outOfIt && (
+                    <TrophyIcon className='text-yellow-500' size={25} />
+                  )}
+                </div>
                 <div>{userRow.points}</div>
               </div>
               <Progress
@@ -125,7 +141,7 @@ function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
     toast(winnerStr, {
       description: latestAward.award,
       duration: 10000,
-      icon: <TrophyIcon size={20} />,
+      icon: <TrophyIcon className='text-yellow-500' size={20} />,
     })
   }
 

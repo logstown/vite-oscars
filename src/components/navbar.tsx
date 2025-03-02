@@ -141,7 +141,7 @@ export const Navbar = () => {
           {/* <NavbarItem> */}
           <Link href='/hall-of-fame' title='Hall of Fame'>
             <span className='hidden sm:flex'>Hall of Fame</span>
-            <TrophyIcon size={20} className='sm:hidden' />
+            <TrophyIcon size={20} className='sm:hidden text-yellow-500' />
           </Link>
           {/* </NavbarItem> */}
           <ThemeSwitch />
