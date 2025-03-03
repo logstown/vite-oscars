@@ -214,7 +214,7 @@ function setWinners(userRows: UserRow[]) {
     winners,
     (finalStr, winner, i) => {
       finalStr += winner.displayName
-      if (i < winners.length) {
+      if (i < winners.length - 1) {
         finalStr += ', '
       }
 
