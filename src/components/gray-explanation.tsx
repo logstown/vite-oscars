@@ -17,6 +17,10 @@ export function GrayExplanation() {
             gain enough points to catch up.
           </p>
           <p>Thanks for playing though, and come back next year!</p>
+          <p>
+            Also, this is hasn't been thoroughly tested and might be wrong,{' '}
+            <small>but I don't think it is</small>
+          </p>
         </div>
       </PopoverContent>
     </Popover>
