@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody } from '@heroui/card'
 import { Progress } from '@heroui/react'
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { chain, maxBy, map, omit, minBy, find } from 'lodash'
+import { chain, maxBy, map, omit, minBy, find, reject, reduce } from 'lodash'
 import { useContext, useState, useEffect } from 'react'
 import { PoolUserDisplay } from './pool-user-display'
 import { useIsCeremonyOver } from '@/hooks/is-ceremony-over'
@@ -67,17 +67,7 @@ export function PoolAfter({
     setUserRows(userRows)
 
     if (isCeremonyOver) {
-      const winner = maxBy(userRows, 'points')
-      if (winner) {
-        toast.success(`Congratulations ${winner.displayName}!`, {
-          position: 'top-center',
-          duration: 15000,
-          icon: <TrophyIcon className='text-yellow-500' size={20} />,
-        })
-
-        const confetti = new ConfettiGenerator({ target: 'my-canvas' })
-        confetti.render()
-      }
+      setWinners(userRows)
     }
   }, [awards, poolUsers, isCeremonyOver])
 
@@ -216,4 +206,31 @@ function getPossiblePoints(
       return sum
     }, 0)
     .value()
+}
+
+function setWinners(userRows: UserRow[]) {
+  const winners = reject(userRows, 'outOfIt')
+  const winnersStr = reduce(
+    winners,
+    (finalStr, winner, i) => {
+      finalStr += winner.displayName
+      if (i < winners.length) {
+        finalStr += ', '
+      }
+
+      return finalStr
+    },
+    '',
+  )
+
+  if (winnersStr) {
+    toast.success(`Congratulations ${winnersStr}!`, {
+      position: 'top-center',
+      duration: 15000,
+      icon: <TrophyIcon className='text-yellow-500' size={20} />,
+    })
+
+    const confetti = new ConfettiGenerator({ target: 'my-canvas' })
+    confetti.render()
+  }
 }
