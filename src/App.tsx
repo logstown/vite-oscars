@@ -4,6 +4,8 @@ import IndexPage from '@/pages/index'
 import LoginPage from './pages/login'
 import JoinPoolPage from './pages/join-pool'
 import HallOfFamePage from './pages/hall-of-fame'
+import HistoryPage from './pages/history'
+
 function App() {
   return (
     <>
@@ -13,6 +15,7 @@ function App() {
         <Route element={<LoginPage />} path='/login' />
         <Route element={<JoinPoolPage />} path='/join-pool/:poolId' />
         <Route element={<HallOfFamePage />} path='/hall-of-fame' />
+        <Route element={<HistoryPage />} path='/history' />
       </Routes>
     </>
   )
