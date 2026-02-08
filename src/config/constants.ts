@@ -1,1 +1,1 @@
-export const ceremonyStart = new Date(Date.UTC(2025, 2, 2, 24))
+export const ceremonyStart = new Date(Date.UTC(2026, 2, 15, 24))
