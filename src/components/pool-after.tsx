@@ -87,7 +87,7 @@ export function PoolAfter({
           {userRows.map(userRow => (
             <motion.li
               key={userRow.uid}
-              className={`${userRow.outOfIt ? 'bg-default-200' : ''}`}
+              className={`rounded-md p-2 ${userRow.outOfIt ? 'bg-default-100' : ''}`}
               layout
               transition={{ type: 'spring', mass: 0.5, stiffness: 50 }}
             >
