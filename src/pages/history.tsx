@@ -157,6 +157,10 @@ export default function HistoryPage() {
               <Accordion selectionMode='multiple'>
                 {item.categories.map(subItem => (
                   <AccordionItem
+                    classNames={{
+                      title: 'text-foreground-500',
+                      subtitle: 'text-foreground',
+                    }}
                     key={subItem.category}
                     title={subItem.category}
                     subtitle={
@@ -165,7 +169,7 @@ export default function HistoryPage() {
                         {subItem.winner?.film && (
                           <>
                             <span>{' - '}</span>
-                            <span className='font-medium italic'>
+                            <span className='underline'>
                               {subItem.winner?.film}
                             </span>
                           </>

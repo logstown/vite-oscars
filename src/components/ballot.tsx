@@ -115,8 +115,7 @@ export default function Ballot({ currentUser }: { currentUser: DbUser }) {
   return (
     <>
       <Button
-        startContent={<MenuIcon className='hidden sm:inline-flex' size={20} />}
-        size='sm'
+        startContent={<MenuIcon size={20} />}
         variant='ghost'
         onPress={onOpen}
       >

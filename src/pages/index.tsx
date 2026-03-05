@@ -8,6 +8,7 @@ import { useCurrentTime } from '@/hooks/current-time'
 import { formatDistance } from 'date-fns'
 import { ceremonyStart } from '@/config/constants'
 import { Alert } from '@heroui/react'
+import Ballot from '@/components/ballot'
 
 export default function IndexPage() {
   const { currentUser, loading } = useContext(AuthContext)
@@ -20,7 +21,7 @@ export default function IndexPage() {
           <Spinner />
         </div>
       ) : currentUser ? (
-        <div>
+        <div className='max-w-2xl mx-auto'>
           <Alert
             className='w-auto mb-20 max-w-lg mx-auto'
             color='primary'
@@ -34,6 +35,9 @@ export default function IndexPage() {
               </span>
             }
           />
+          <div className='mb-8'>
+            <Ballot currentUser={currentUser} />
+          </div>
           <Pools currentUser={currentUser} />
         </div>
       ) : (
