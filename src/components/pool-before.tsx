@@ -67,14 +67,14 @@ export function PoolBefore({
           </DropdownTrigger>
           <DropdownMenu aria-label='Dropdown menu with icons' variant='faded'>
             <DropdownItem
-              startContent={<ShareIcon />}
+              startContent={<ShareIcon size={15} />}
               onPress={copyLink}
               key='share'
             >
               Copy Link to join Pool
             </DropdownItem>
             <DropdownItem
-              startContent={<LogOutIcon />}
+              startContent={<LogOutIcon size={15} />}
               onPress={() => leavePool()}
               key='delete'
               className='text-danger'

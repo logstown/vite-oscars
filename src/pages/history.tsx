@@ -14,6 +14,7 @@ import {
   Slider,
 } from '@heroui/react'
 import { TrophyIcon } from 'lucide-react'
+import DefaultLayout from '@/layouts/default'
 
 type NomineeRaw = {
   canon_category: string
@@ -100,71 +101,79 @@ export default function HistoryPage() {
   if (error) return <div>Error: {error.message}</div>
 
   return (
-    <div>
-      <Select
-        className='max-w-xs'
-        label='Category'
-        placeholder='Select an category'
-        selectionMode='multiple'
-        selectedKeys={selectedCategories}
-        onSelectionChange={setSelectedCategories}
-        isClearable={true}
-      >
-        {canonCategories.map(category => (
-          <SelectItem key={category}>{category}</SelectItem>
-        ))}
-      </Select>
-      <Slider
-        className='max-w-md'
-        label='Year Range'
-        formatOptions={{ useGrouping: false }}
-        maxValue={2025}
-        minValue={1928}
-        value={yearRange}
-        onChange={value => setYearRange(value as [number, number])}
-        step={1}
-      />
-      <Input
-        label='Movie'
-        type='search'
-        placeholder='Filter movie'
-        value={movieFilter}
-        onValueChange={setMovieFilter}
-        isClearable
-      />
-      <Accordion
-        selectionMode='multiple'
-        variant='splitted'
-        selectedKeys={openCeremonies}
-        onSelectionChange={setOpenCeremonies}
-      >
-        {realData.map(item => (
-          <AccordionItem
-            key={item.ceremony}
-            aria-label='Chung Miller'
-            startContent={<Chip># {item.ceremony.toString()}</Chip>}
-            title={item.year.toString()}
-          >
-            <Accordion selectionMode='multiple'>
-              {item.categories.map(subItem => (
-                <AccordionItem
-                  key={subItem.category}
-                  title={subItem.category}
-                  subtitle={
-                    <>
-                      {subItem.winner?.name}
-                      {subItem.winner?.film && (
-                        <>
-                          <span>{' - '}</span>
-                          <span className='font-medium italic'>
-                            {subItem.winner?.film}
-                          </span>
-                        </>
-                      )}
-                    </>
-                  }
-                >
-                  {/* {subItem.map(nominee => (
+    <DefaultLayout>
+      <div className='w-full max-w-3xl mx-auto px-4 pb-4 sm:px-6 sm:pb-6'>
+        <h1 className='text-3xl sm:text-4xl font-bold mb-6'>
+          Academy Awards History
+        </h1>
+        <div className='flex flex-col gap-4 mb-6'>
+          <div className='flex flex-col sm:flex-row gap-4'>
+            <Select
+              className='flex-1'
+              label='Category'
+              placeholder='Filter by category'
+              selectionMode='multiple'
+              selectedKeys={selectedCategories}
+              onSelectionChange={setSelectedCategories}
+              isClearable={true}
+            >
+              {canonCategories.map(category => (
+                <SelectItem key={category}>{category}</SelectItem>
+              ))}
+            </Select>
+            <Input
+              className='flex-1'
+              label='Movie'
+              type='search'
+              placeholder='Filter by movie'
+              value={movieFilter}
+              onValueChange={setMovieFilter}
+              isClearable
+            />
+          </div>
+          <Slider
+            label='Year Range'
+            formatOptions={{ useGrouping: false }}
+            maxValue={2025}
+            minValue={1928}
+            value={yearRange}
+            onChange={value => setYearRange(value as [number, number])}
+            step={1}
+          />
+        </div>
+        <Accordion
+          selectionMode='multiple'
+          variant='splitted'
+          selectedKeys={openCeremonies}
+          onSelectionChange={setOpenCeremonies}
+        >
+          {realData.map(item => (
+            <AccordionItem
+              key={item.ceremony}
+              aria-label='Chung Miller'
+              startContent={<Chip># {item.ceremony.toString()}</Chip>}
+              title={item.year.toString()}
+            >
+              <Accordion selectionMode='multiple'>
+                {item.categories.map(subItem => (
+                  <AccordionItem
+                    key={subItem.category}
+                    title={subItem.category}
+                    subtitle={
+                      <>
+                        {subItem.winner?.name}
+                        {subItem.winner?.film && (
+                          <>
+                            <span>{' - '}</span>
+                            <span className='font-medium italic'>
+                              {subItem.winner?.film}
+                            </span>
+                          </>
+                        )}
+                      </>
+                    }
+                  >
+                    {/* {subItem.map(nominee => (
                   <div key={nominee.name} className='flex items-center gap-2'>
                     {nominee.name}
                     {nominee.winner && (
@@ -172,24 +181,25 @@ export default function HistoryPage() {
                     )}
                   </div>
                 ))} */}
-                  <Listbox aria-label='Actions' onAction={key => alert(key)}>
-                    {subItem.nominees.map(nominee => (
-                      <ListboxItem
-                        textValue={nominee.name + ' - ' + nominee.film}
-                        key={nominee.name + nominee.film}
-                        onPress={() => alert(nominee.name)}
-                      >
-                        {nominee.name}{' '}
-                        <span className='italic'>- {nominee.film}</span>
-                      </ListboxItem>
-                    ))}
-                  </Listbox>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
+                    <Listbox aria-label='Actions' onAction={key => alert(key)}>
+                      {subItem.nominees.map(nominee => (
+                        <ListboxItem
+                          textValue={nominee.name + ' - ' + nominee.film}
+                          key={nominee.name + nominee.film}
+                          onPress={() => alert(nominee.name)}
+                        >
+                          {nominee.name}{' '}
+                          <span className='italic'>- {nominee.film}</span>
+                        </ListboxItem>
+                      ))}
+                    </Listbox>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </DefaultLayout>
   )
 }
