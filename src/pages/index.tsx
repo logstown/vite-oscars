@@ -9,10 +9,12 @@ import { formatDistance } from 'date-fns'
 import { ceremonyStart } from '@/config/constants'
 import { Alert } from '@heroui/react'
 import Ballot from '@/components/ballot'
+import { useIsAfterCermony } from '@/hooks/is-after-ceremony'
 
 export default function IndexPage() {
   const { currentUser, loading } = useContext(AuthContext)
   const { currentTime } = useCurrentTime()
+  const { isAfterCeremony } = useIsAfterCermony()
 
   return (
     <DefaultLayout>
@@ -22,19 +24,21 @@ export default function IndexPage() {
         </div>
       ) : currentUser ? (
         <div className='max-w-2xl mx-auto'>
-          <Alert
-            className='w-auto mb-20 max-w-lg mx-auto'
-            color='primary'
-            isClosable
-            title={
-              <span>
-                The ceremony starts in{' '}
-                <span className='font-bold text-medium'>
-                  {formatDistance(currentTime, ceremonyStart)}
+          {!isAfterCeremony && (
+            <Alert
+              className='w-auto mb-20 max-w-lg mx-auto'
+              color='primary'
+              isClosable
+              title={
+                <span>
+                  The ceremony starts in{' '}
+                  <span className='font-bold text-medium'>
+                    {formatDistance(currentTime, ceremonyStart)}
+                  </span>
                 </span>
-              </span>
-            }
-          />
+              }
+            />
+          )}
           <div className='mb-8'>
             <Ballot currentUser={currentUser} />
           </div>

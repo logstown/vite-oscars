@@ -14,6 +14,7 @@ import { GrayExplanation } from './gray-explanation'
 import { toast } from 'sonner'
 import { TrophyIcon } from 'lucide-react'
 import ConfettiGenerator from 'confetti-js'
+import { useNeoMode } from './user-menu'
 
 type UserRow = {
   photoURL: string | null
@@ -35,6 +36,7 @@ export function PoolAfter({
   const [userRows, setUserRows] = useState<UserRow[]>([])
   const [totalPoints, setTotalPoints] = useState(0)
   const { isCeremonyOver } = useIsCeremonyOver()
+  const { neoMode } = useNeoMode()
 
   const {
     data: poolUsers,
@@ -87,7 +89,7 @@ export function PoolAfter({
           {userRows.map(userRow => (
             <motion.li
               key={userRow.uid}
-              className={`rounded-md p-2 ${userRow.outOfIt ? 'bg-default-100' : ''}`}
+              className={`rounded-md p-2 ${neoMode && userRow.outOfIt ? 'bg-default-100' : ''}`}
               layout
               transition={{ type: 'spring', mass: 0.5, stiffness: 50 }}
             >
@@ -111,11 +113,13 @@ export function PoolAfter({
                 color={userRow.progressColor}
                 maxValue={totalPoints}
               />
-              {userRow.outOfIt && userRow.uid === currentUser.uid && (
-                <div className='mt-4 flex justify-end'>
-                  <GrayExplanation />
-                </div>
-              )}
+              {neoMode &&
+                userRow.outOfIt &&
+                userRow.uid === currentUser.uid && (
+                  <div className='mt-4 flex justify-end'>
+                    <GrayExplanation />
+                  </div>
+                )}
             </motion.li>
           ))}
         </ul>
