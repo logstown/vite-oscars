@@ -24,6 +24,10 @@ export default function IndexPage() {
         </div>
       ) : currentUser ? (
         <div className='max-w-2xl mx-auto'>
+          <div className='relative flex items-center'>
+            <Ballot currentUser={currentUser} />
+            <h1 className='text-3xl sm:text-4xl font-bold absolute left-1/2 -translate-x-1/2'>Pools</h1>
+          </div>
           {!isAfterCeremony && (
             <Alert
               className='w-auto mb-20 max-w-lg mx-auto'
@@ -39,9 +43,7 @@ export default function IndexPage() {
               }
             />
           )}
-          <div className='mb-8'>
-            <Ballot currentUser={currentUser} />
-          </div>
+          <div className='mb-8 text-center'></div>
           <Pools currentUser={currentUser} />
         </div>
       ) : (
