@@ -5,6 +5,7 @@ import LoginPage from './pages/login'
 import JoinPoolPage from './pages/join-pool'
 import HallOfFamePage from './pages/hall-of-fame'
 import HistoryPage from './pages/history'
+import { Chat } from './components/chat'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route element={<HallOfFamePage />} path='/hall-of-fame' />
         <Route element={<HistoryPage />} path='/history' />
       </Routes>
+      <Chat />
     </>
   )
 }

@@ -1,5 +1,14 @@
 import { Timestamp } from 'firebase/firestore'
 
+export type Message = {
+  id: string
+  text: string
+  uid: string
+  displayName: string
+  photoURL: string | null
+  timestamp: Timestamp
+}
+
 export type DbUser = {
   uid: string
   displayName: string | null

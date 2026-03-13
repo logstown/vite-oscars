@@ -1,4 +1,5 @@
 import {
+  addDoc,
   arrayRemove,
   arrayUnion,
   collection,
@@ -6,6 +7,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -15,7 +17,7 @@ import {
   where,
 } from 'firebase/firestore'
 import { db } from './config/firebase'
-import { Award, DbUser, Picks, Pool } from './config/models'
+import { Award, DbUser, Message, Picks, Pool } from './config/models'
 
 export const listenToAwards = (cb: (awards: Award[]) => void) => {
   const q = query(collection(db, 'awards'), orderBy('sequence'))
@@ -116,5 +118,38 @@ export const cancelWinnerFB = async (awardId: string): Promise<void> => {
   return updateDoc(doc(db, 'awards', awardId), {
     winner: '',
     winnerStamp: null,
+  })
+}
+
+export const listenToMessages = (
+  poolId: string,
+  cb: (messages: Message[]) => void,
+) => {
+  const q = query(
+    collection(db, 'pools', poolId, 'messages'),
+    orderBy('timestamp', 'asc'),
+    limit(50),
+  )
+
+  return onSnapshot(q, snapshot => {
+    const messages: Message[] = []
+    snapshot.forEach(d => messages.push({ id: d.id, ...d.data() } as Message))
+    cb(messages)
+  })
+}
+
+export const sendMessage = async (
+  poolId: string,
+  uid: string,
+  displayName: string,
+  photoURL: string | null,
+  text: string,
+): Promise<void> => {
+  await addDoc(collection(db, 'pools', poolId, 'messages'), {
+    text,
+    uid,
+    displayName,
+    photoURL,
+    timestamp: serverTimestamp(),
   })
 }

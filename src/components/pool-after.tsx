@@ -139,6 +139,7 @@ function getUpdatedUsers(poolUsers: DbUser[], awards: Award[]): UserRow[] {
 
     toast(winnerStr, {
       description: latestAward.award,
+      position: 'top-center',
       duration: 10000,
       icon: <TrophyIcon className='text-yellow-500' size={20} />,
     })
