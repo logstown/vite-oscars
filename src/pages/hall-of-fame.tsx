@@ -27,7 +27,7 @@ const realData = [
     displayName: 'Niles Radl',
     photoURL:
       'https://lh3.googleusercontent.com/a-/AAuE7mBEruXnSZk_G-28nVZGIM8FqAwyQDQp89sDoRDW',
-    winningYears: [2018, 2024],
+    winningYears: [2018, 2024, 2026],
   },
   {
     displayName: 'Maggie Radl',
